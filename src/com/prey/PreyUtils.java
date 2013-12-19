@@ -15,7 +15,11 @@ import android.util.DisplayMetrics;
 public class PreyUtils {
 	
 	public static String getDeviceType(Activity act){
-		if (isTablet(act.getApplicationContext()))
+		return getDeviceType(act.getApplicationContext());
+	}
+	
+	public static String getDeviceType(Context ctx){
+		if (isTablet(ctx))
 			return "Tablet";
 		else
 			return "Phone";

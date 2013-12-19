@@ -18,6 +18,7 @@ import com.prey.PreyLogger;
 import com.prey.PushMessage;
 import com.prey.activities.FeedbackActivity;
 import com.prey.exceptions.PreyException;
+import com.prey.install.PreyInstallRemoteApiKeyThread;
 import com.prey.net.PreyWebServices;
 
 public class C2DMReceiver extends BroadcastReceiver {
@@ -40,22 +41,26 @@ public class C2DMReceiver extends BroadcastReceiver {
 				PushMessage pMessage = new PushMessage(pushedMessage);
 				
 				boolean feedback = pushedMessage.indexOf("feedback") >= 0;
-				feedback=false;
-				if (feedback) {
-					PreyConfig.getPreyConfig(context).setFlagFeedback(FeedbackActivity.FLAG_FEEDBACK_C2DM);
-				} else {
-					boolean shouldPerform = pushedMessage.indexOf("run") >= 0;
-					boolean shouldStop = pushedMessage.indexOf("stop") >= 0;
-					shouldPerform=true;
-					if (shouldPerform) {
-						PreyLogger.i("Push notification received, waking up Prey right now!");
-						PreyController.startPrey(context);
+				boolean apiKey = pushedMessage.indexOf("api_key") >= 0;
+				if (apiKey){
+					new PreyInstallRemoteApiKeyThread(context,pushedMessage).start();
+				}else{
+					if (feedback) {
+						PreyConfig.getPreyConfig(context).setFlagFeedback(FeedbackActivity.FLAG_FEEDBACK_C2DM);
 					} else {
-						if (shouldStop) {
-							PreyLogger.i("Push notification received, stopping Prey!");
-							PreyController.stopPrey(context);
+						boolean shouldPerform = pushedMessage.indexOf("run") >= 0;
+						boolean shouldStop = pushedMessage.indexOf("stop") >= 0;
+						shouldPerform=true;
+						if (shouldPerform) {
+							PreyLogger.i("Push notification received, waking up Prey right now!");
+							PreyController.startPrey(context);
+						} else {
+							if (shouldStop) {
+								PreyLogger.i("Push notification received, stopping Prey!");
+								PreyController.stopPrey(context);
+							}
 						}
-					}
+					}	
 					PreyConfig.getPreyConfig(context).setRunOnce(pMessage.getBody().indexOf("run_once") >= 0);
 				}
 			} catch (PreyException e) {
@@ -88,12 +93,12 @@ public class C2DMReceiver extends BroadcastReceiver {
 		@Override
 		protected Void doInBackground(Object... data) {
 			try {
-				String registration = FileConfigReader.getInstance((Context) data[1]).getGcmIdPrefix() + (String) data[0];
+				Context ctx=(Context) data[1];
+				String registration = FileConfigReader.getInstance(ctx).getGcmIdPrefix() + (String) data[0];
 				PreyLogger.d("Registration id: " + registration);
-				PreyWebServices.getInstance().setPushRegistrationId((Context) data[1], registration);
-
+				PreyConfig.getPreyConfig(ctx).setNotificationId(registration);
+				PreyWebServices.getInstance().setPushRegistrationId(ctx, registration);
 			} catch (Exception e) {
-
 				PreyLogger.e("Failed registering to CD2M: " + e.getLocalizedMessage(), e);
 			}
 			return null;

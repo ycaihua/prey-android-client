@@ -96,6 +96,7 @@ public class PreyConfig {
 	public static final String INSTALLATION_DATE = "INSTALLATION_DATE"; 
 	public static final String FLAG_FEEDBACK = "FLAG_FEEDBACK"; 
 	public static final String KEEP_ON = "KEEP_ON";
+	public static final String NOTIFICATION_ID="NOTIFICATION_ID";
 	
 	/* ------------- */
 
@@ -131,7 +132,7 @@ public class PreyConfig {
 	private int flagFeedback;
 	
 	private boolean keepOn;
-	 
+	
 	private Context ctx;
 
 	private PreyConfig(Context ctx) {
@@ -164,6 +165,7 @@ public class PreyConfig {
 
 
 		this.installationDate=settings.getLong(PreyConfig.INSTALLATION_DATE, new Date().getTime());
+		saveLong(PreyConfig.INSTALLATION_DATE,installationDate);
 		this.flagFeedback=settings.getInt(PreyConfig.FLAG_FEEDBACK, FeedbackActivity.FLAG_FEEDBACK_INIT);
 		this.keepOn=settings.getBoolean(PreyConfig.KEEP_ON, false);
 	}
@@ -252,7 +254,6 @@ public class PreyConfig {
 		editor.putBoolean(PreyConfig.IS_LOCK_SET, locked);
 		editor.commit();
 	}
-	
 	
 	public void setRevokedPassword(boolean isRevokedPassword,String revokedPassword) {
 		this.isRevokedPassword = isRevokedPassword;
@@ -501,6 +502,13 @@ public class PreyConfig {
 		editor.putBoolean(key, value);
 		editor.commit();
 	}
+	
+	private void saveLong(String key, long value){
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putLong(key, value);
+		editor.commit();
+	}
 
 	public boolean isRunOnce() {
 		return runOnce;
@@ -606,4 +614,18 @@ public class PreyConfig {
 	public String getEmailBatch() {
 		return FileConfigReader.getInstance(this.ctx).getEmailBatch();
 	}
+	
+	public long getInstallationDate(){
+		return this.installationDate;
+	}
+	
+	public void setNotificationId(String notificationId){
+		saveString(PreyConfig.NOTIFICATION_ID, notificationId);
+	}
+	
+	public String getNotificationId(){
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
+		return settings.getString(PreyConfig.NOTIFICATION_ID, "");
+	}
+	
 }
