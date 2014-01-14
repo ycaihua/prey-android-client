@@ -80,7 +80,10 @@ public class C2DMReceiver extends BroadcastReceiver {
 			PreyLogger.d("Unregistered from c2dm: " + intent.getStringExtra("unregistered"));
 		} else if (registration != null) {
 			PreyLogger.d("Registration id: " + registration);
-			new UpdateCD2MId().execute(registration, context);
+			PreyConfig.getPreyConfig(context).setNotificationId(registration);
+			if(PreyConfig.getPreyConfig(context).isThisDeviceAlreadyRegisteredWithPrey(false)){
+				new UpdateCD2MId().execute(registration, context);
+			}
 			// Send the registration ID to the 3rd party site that is sending
 			// the messages.
 			// This should be done in a separate thread.
@@ -96,7 +99,7 @@ public class C2DMReceiver extends BroadcastReceiver {
 				Context ctx=(Context) data[1];
 				String registration = FileConfigReader.getInstance(ctx).getGcmIdPrefix() + (String) data[0];
 				PreyLogger.d("Registration id: " + registration);
-				PreyConfig.getPreyConfig(ctx).setNotificationId(registration);
+				
 				PreyWebServices.getInstance().setPushRegistrationId(ctx, registration);
 			} catch (Exception e) {
 				PreyLogger.e("Failed registering to CD2M: " + e.getLocalizedMessage(), e);

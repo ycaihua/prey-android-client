@@ -147,7 +147,7 @@ public class PreyRestHttpClient {
 		method.setEntity(new UrlEncodedFormEntity(getHttpParamsFromMap(params), HTTP.UTF_8));
 
 		// method.setParams(getHttpParamsFromMap(params));
-		PreyLogger.d("Sending using 'POST' - URI: " + url + " - parameters: " + params.toString());
+		PreyLogger.i("Sending using 'POST' - URI: " + url + " - parameters: " + params.toString());
 		httpclient.setRedirectHandler(new NotRedirectHandler());
 		HttpResponse httpResponse = httpclient.execute(method);
 		PreyHttpResponse response = new PreyHttpResponse(httpResponse);

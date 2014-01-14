@@ -4,10 +4,14 @@ import android.content.Context;
 import android.os.Build;
 
  
+
 import com.prey.PreyConfig;
 import com.prey.PreyEmail;
 import com.prey.PreyLogger; 
+import com.prey.PreyUtils;
 import com.prey.backwardcompatibility.AboveCupcakeSupport;
+import com.prey.net.PreyHttpResponse;
+import com.prey.net.PreyWebServices;
 
 public class PreyInstallRemoteThread extends Thread {
 	private Context ctx;
@@ -26,14 +30,19 @@ public class PreyInstallRemoteThread extends Thread {
 				vendor = AboveCupcakeSupport.getDeviceVendor();
  	
 			PreyLogger.i("email:"+email+" vendor:"+vendor+" model:"+model+" notificationId:"+notificationId);
-			/*
-			String deviceType = PreyUtils.getDeviceType(ctx);
-			PreyAccountData accountData = null;
-			accountData = PreyWebServices.getInstance().registerNewDeviceToAccount(ctx, email, "prueba", deviceType);
-			PreyConfig.getPreyConfig(ctx).saveAccount(accountData);
-			*/
+			
+			if (notificationId!=null&&!"".equals(notificationId)){
+				String deviceType = PreyUtils.getDeviceType(ctx);
+				PreyHttpResponse response=PreyWebServices.getInstance().registerNewDeviceRemote(ctx, email,notificationId, deviceType);
+				PreyLogger.i("remote install response:"+response.getResponseAsString());
+				PreyLogger.i("remote install code:"+response.getStatusLine().getStatusCode());
+
+				if (response.getStatusLine().getStatusCode()==200){
+					PreyConfig.getPreyConfig(ctx).setSendNotificationId(true); 
+				}
+			}
 		} catch (Exception e) {
-			PreyLogger.i("Error: " + e.getMessage());
+			PreyLogger.i("Error remote install: " + e.getMessage());
 
 		}
 	}

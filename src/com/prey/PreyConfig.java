@@ -97,6 +97,7 @@ public class PreyConfig {
 	public static final String FLAG_FEEDBACK = "FLAG_FEEDBACK"; 
 	public static final String KEEP_ON = "KEEP_ON";
 	public static final String NOTIFICATION_ID="NOTIFICATION_ID";
+	public static final String SEND_NOTIFICATION_ID="SEND_NOTIFICATION_ID";
 	
 	/* ------------- */
 
@@ -133,6 +134,9 @@ public class PreyConfig {
 	
 	private boolean keepOn;
 	
+	private boolean sendNotificationId;
+	private String notificationId;
+	
 	private Context ctx;
 
 	private PreyConfig(Context ctx) {
@@ -168,6 +172,8 @@ public class PreyConfig {
 		saveLong(PreyConfig.INSTALLATION_DATE,installationDate);
 		this.flagFeedback=settings.getInt(PreyConfig.FLAG_FEEDBACK, FeedbackActivity.FLAG_FEEDBACK_INIT);
 		this.keepOn=settings.getBoolean(PreyConfig.KEEP_ON, false);
+		this.sendNotificationId=settings.getBoolean(PreyConfig.SEND_NOTIFICATION_ID,false);
+		
 	}
 	
 	public void saveAccount(PreyAccountData accountData) {
@@ -620,6 +626,7 @@ public class PreyConfig {
 	}
 	
 	public void setNotificationId(String notificationId){
+		this.notificationId=notificationId;
 		saveString(PreyConfig.NOTIFICATION_ID, notificationId);
 	}
 	
@@ -628,4 +635,12 @@ public class PreyConfig {
 		return settings.getString(PreyConfig.NOTIFICATION_ID, "");
 	}
 	
+	public void setSendNotificationId(boolean sendNotificationId){
+		this.sendNotificationId=sendNotificationId;
+		saveBoolean(PreyConfig.SEND_NOTIFICATION_ID, sendNotificationId);
+	}
+	
+	public boolean isSendNotificationId(){
+		return this.sendNotificationId;
+	}
 }
