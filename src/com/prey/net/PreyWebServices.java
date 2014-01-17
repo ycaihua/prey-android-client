@@ -565,7 +565,7 @@ public class PreyWebServices {
 		
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		parameters.put("device[notification_id]", notificationId);
-		parameters.put("remote_email", mail);
+		parameters.put("user[email]", mail);
 		parameters.put("device[title]", vendor + " " + model);
 		parameters.put("device[device_type]", deviceType);
 		parameters.put("device[os]", "Android");
