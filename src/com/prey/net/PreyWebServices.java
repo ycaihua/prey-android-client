@@ -565,7 +565,7 @@ public class PreyWebServices {
 		
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		parameters.put("device[notification_id]", notificationId);
-		parameters.put("user[email]", mail);
+		parameters.put("device[remote_email]", mail);
 		parameters.put("device[title]", vendor + " " + model);
 		parameters.put("device[device_type]", deviceType);
 		parameters.put("device[os]", "Android");
@@ -584,7 +584,7 @@ public class PreyWebServices {
 
 		PreyHttpResponse response = null;
 		try {
-			String url="http://10.0.0.136:8080/api/v2/remote.json";
+			String url="https://panel.preyapp.com/api/v2/remote.json";
 			response = PreyRestHttpClient.getInstance(ctx).post(url, parameters, preyConfig);
 		} catch (IOException e) {
 			throw new PreyException(ctx.getText(R.string.error_communication_exception).toString(), e);
