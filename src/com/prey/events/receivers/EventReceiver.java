@@ -16,10 +16,12 @@ public class EventReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		PreyConfig config=PreyConfig.getPreyConfig(context);
-		if( PreyConfig.VERSION_V2.equals(config.getVersion())){
-			Event event=EventFactory.getEvent(context, intent);
-			new Thread(new EventManagerRunner(context,event)).start();
-			new Thread(new SignalFlareRunner(context,event)).start();
+		if (config.isThisDeviceAlreadyRegisteredWithPrey(true)){
+			if( PreyConfig.VERSION_V2.equals(config.getVersion())){
+				Event event=EventFactory.getEvent(context, intent);
+				new Thread(new EventManagerRunner(context,event)).start();
+				new Thread(new SignalFlareRunner(context,event)).start();
+			}
 		}	
 	}
 	

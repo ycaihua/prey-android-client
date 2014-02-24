@@ -6,8 +6,11 @@
  ******************************************************************************/
 package com.prey.activities;
 
+
+import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 
+import com.prey.PreyScheduled;
 import com.prey.PreyVerify;
 import com.prey.R;
 import android.content.Context;
@@ -51,7 +54,11 @@ public class LoginActivity extends PasswordActivity {
 		startup();
 	}
 
+	@SuppressLint("NewApi")
 	private void startup() {
+		
+		PreyScheduled.getInstance(getApplicationContext());
+		
 		if (!isThisDeviceAlreadyRegisteredWithPrey()) {
 			Intent intent =null;
 			if (!isThereBatchInstallationKey()){

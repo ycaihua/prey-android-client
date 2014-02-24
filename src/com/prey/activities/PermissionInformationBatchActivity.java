@@ -54,7 +54,7 @@ public class PermissionInformationBatchActivity extends PreyActivity {
 		Button ok = (Button) findViewById(R.id.congrats_btn_ok);
 		ok.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Camouflage.hideThread(getApplicationContext());
+				//Camouflage.hideThread(getApplicationContext());
 				finish();
 			}
 		});
