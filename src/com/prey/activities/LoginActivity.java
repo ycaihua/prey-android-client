@@ -58,7 +58,7 @@ public class LoginActivity extends PasswordActivity {
 				intent = new Intent(LoginActivity.this, WelcomeActivity.class);
 				
 			}else{
-				intent = new Intent(LoginActivity.this, WelcomeBatchActivity.class);
+				intent = new Intent(LoginActivity.this, WelcomeSmartpayActivity.class);
 			}
 			startActivity(intent);
 			finish();

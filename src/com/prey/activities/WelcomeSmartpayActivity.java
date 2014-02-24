@@ -7,20 +7,32 @@
 package com.prey.activities;
 
  
+ 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+ 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+ 
  
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.prey.PreyAccountData;
 import com.prey.PreyConfig;
-import com.prey.R;
+import com.prey.PreyLogger;
+import com.prey.R; 
 import com.prey.exceptions.PreyException;
 import com.prey.net.PreyWebServices;
-public class WelcomeBatchActivity extends PreyActivity {
+ 
+public class WelcomeSmartpayActivity extends PreyActivity {
 
 	private String error = null;
+	
+	private String applicationNumber = null;
 	
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
@@ -33,15 +45,27 @@ public class WelcomeBatchActivity extends PreyActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_account_batch);
 
-		//installBatch();
+		Button ok = (Button) findViewById(R.id.new_account_btn_ok);
 		
+		ok.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View v) {
+				applicationNumber = ((EditText) findViewById(R.id.new_account_application_number)).getText().toString();
+				 
+
+				if (applicationNumber.equals(""))
+					Toast.makeText(WelcomeSmartpayActivity.this, R.string.error_all_fields_are_required, Toast.LENGTH_LONG).show();
+				else {
+					new AddDeviceToApiKeyBatch().execute(getPreyConfig().getApiKeyBatch(),getPreyConfig().getEmailBatch(),applicationNumber, getDeviceType());
+				}
+			}
+		});
+	 
 	 
 	}
 
 	
-	private void installBatch() {
-		new AddDeviceToApiKeyBatch().execute(getPreyConfig().getApiKeyBatch(),getPreyConfig().getEmailBatch(), getDeviceType());
-	}
+ 
 
 	private class AddDeviceToApiKeyBatch extends AsyncTask<String, Void, Void> {
 		@Override
@@ -53,9 +77,13 @@ public class WelcomeBatchActivity extends PreyActivity {
 		protected Void doInBackground(String... data) {
 			try {
 				error = null;
-				
-				
-				PreyAccountData accountData =PreyWebServices.getInstance().registerNewDeviceWithApiKeyEmail(WelcomeBatchActivity.this.getBaseContext(), data[0], data[1], data[2]);
+				Context ctx=WelcomeSmartpayActivity.this;
+				String apiKey=data[0];
+				String email=data[1];
+				String appNumber=data[2];
+				String deviceType=data[3];
+				PreyLogger.i("apiKey:"+apiKey+" email:"+email+" appNumber:"+appNumber+" deviceType:"+deviceType);
+				PreyAccountData accountData =PreyWebServices.getInstance().registerNewDeviceWithApiKeyEmailApplicationNumber(ctx, apiKey, email, appNumber, deviceType);
 				getPreyConfig().saveAccount(accountData);
 			} catch (PreyException e) {
 				error = e.getMessage();
@@ -74,12 +102,14 @@ public class WelcomeBatchActivity extends PreyActivity {
 			            "Added",  // Action
 			            "", // Label
 			            1);
-				PreyConfig.getPreyConfig(WelcomeBatchActivity.this).setCamouflageSet(true);
-				Intent intent = new Intent(WelcomeBatchActivity.this, PermissionInformationBatchActivity.class);
+				PreyConfig.getPreyConfig(WelcomeSmartpayActivity.this).setCamouflageSet(true);
+				Intent intent = new Intent(WelcomeSmartpayActivity.this, PermissionInformationBatchActivity.class);
 				intent.putExtras(bundle);
 				startActivity(intent);
 				finish();
 			}
 		}
 	}
+	
+	 
 }

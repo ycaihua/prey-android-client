@@ -15,6 +15,7 @@ import android.widget.Button;
 
 
 import com.prey.PreyLogger;
+import com.prey.actions.camouflage.Camouflage;
 import com.prey.backwardcompatibility.FroyoSupport;
 
 public class PermissionInformationBatchActivity extends PreyActivity {
@@ -49,17 +50,11 @@ public class PermissionInformationBatchActivity extends PreyActivity {
 	}
 	
 	private void showScreen(){
-		setContentView(R.layout.permission_information);
-
+		setContentView(R.layout.congratulations_batch);
 		Button ok = (Button) findViewById(R.id.congrats_btn_ok);
 		ok.setOnClickListener(new View.OnClickListener() {
-
 			public void onClick(View v) {
-				Intent intent = new Intent(PermissionInformationBatchActivity.this, LoginActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putString("message", congratsMessage);
-				intent.putExtras(bundle);
-				startActivity(intent);
+				Camouflage.hideThread(getApplicationContext());
 				finish();
 			}
 		});

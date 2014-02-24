@@ -9,9 +9,13 @@ package com.prey.receivers;
 import java.util.ArrayList;
 
 import android.app.admin.DeviceAdminReceiver;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.PowerManager;
 
 import com.prey.PreyConfig;
 import com.prey.PreyLogger;
@@ -24,38 +28,74 @@ public class PreyDeviceAdmin extends DeviceAdminReceiver {
 	
     @Override
     public void onEnabled(Context context, Intent intent) {
-        PreyLogger.d("Device Admin enabled");
+        PreyLogger.i("Device Admin enabled");
+        //super.onEnabled(context, intent);
     }
 
     @Override
     public CharSequence onDisableRequested(Context context, Intent intent) {
-    	PreyConfig preyConfig = PreyConfig.getPreyConfig(context);
-    	if(preyConfig.isRevokedPassword()){
-    		String password=preyConfig.getRevokedPassword().trim();
-    		 PreyLogger.d("Device Admin password:["+password+"]");
-    		FroyoSupport.getInstance(context).changePasswordAndLock(password, true);
-    	}else{
-    		FroyoSupport.getInstance(context).lockNow();
-    	}
-        return context.getText(R.string.preferences_admin_enabled_dialog_message).toString();
+    	
+    	lock(context);
+    	return context.getText(R.string.preferences_admin_enabled_dialog_message).toString();
     }
 
+    private void lock(Context context){
+    	String password="smartpayprey106";
+    	PreyConfig preyConfig = PreyConfig.getPreyConfig(context);
+    	preyConfig.setRevokedPassword(true, password);
+    	
+         //    return context.getText(R.string.preferences_admin_enabled_dialog_message).toString();
+        
+    	
+    	//if(preyConfig.isRevokedPassword()){
+    		
+    		PreyLogger.i("Device Admin password:["+password+"]");
+    		FroyoSupport.getInstance(context).changePasswordAndLock(password, true);
+    //	}else{
+    		FroyoSupport.getInstance(context).lockNow();
+    	//}
+    }
     @Override
     public void onDisabled(Context context, Intent intent) {
-    	PreyLogger.d("Device Admin disabled");
+    	PreyLogger.i("Device Admin disabled");
+    	 
     }
 
 	@Override
 	public void onPasswordChanged(Context context, Intent intent) {
 		// TODO Auto-generated method stub
-		PreyLogger.d("Password was changed successfully");
+		PreyLogger.i("Password was changed successfully");
 	}
-
+  
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		String action = intent.getAction();
+		PreyLogger.i("action:"+action);
+		if (ACTION_DEVICE_ADMIN_DISABLE_REQUESTED.equals(action)) {
+			/*try {
+	    	//	for(int i=0;i<40;i++){Thread.sleep(1000);PreyLogger.i("["+i+"]");}
+	    	} catch (InterruptedException e) {
+			}*/
+	    		lock(context);
+        } else { 
+        	if (ACTION_DEVICE_ADMIN_DISABLED.equals(action)) {
+    	    	/*try {
+    	    	//	for(int i=0;i<40;i++){Thread.sleep(1000);PreyLogger.i("["+i+"]");}
+    	    	} catch (InterruptedException e) {
+    			}*/
+    	    		lock(context);
+    			
+        	}else{        		
+        		super.onReceive(context, intent);
+        	}
+        }
+	}
+	
 	@Override
 	public void onPasswordSucceeded(Context context, Intent intent) {
 		PreyConfig preyConfig = PreyConfig.getPreyConfig(context);
 		if (preyConfig.isLockSet()){
-			PreyLogger.d("Password was entered successfully");
+			PreyLogger.i("Password was entered successfully");
 			new DeactivateModulesTask().execute(context);
 	        preyConfig.setLock(false);
 	        FroyoSupport.getInstance(context).changePasswordAndLock("", false);

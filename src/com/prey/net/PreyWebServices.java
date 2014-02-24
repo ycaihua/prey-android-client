@@ -157,6 +157,16 @@ public class PreyWebServices {
 	 * @throws PreyException
 	 */
 	public String registerNewDevice(Context ctx, String api_key, String deviceType) throws PreyException {
+		return registerNewDevice(ctx, api_key, deviceType, null);
+	}
+
+	/**
+	 * Register a new device for a given API_KEY, needed just after obtain the
+	 * new API_KEY.
+	 * 
+	 * @throws PreyException
+	 */
+	public String registerNewDevice(Context ctx, String api_key, String deviceType, String applicationNumber) throws PreyException {
 		PreyConfig preyConfig = PreyConfig.getPreyConfig(ctx);
 		
 		String model = Build.MODEL;
@@ -166,7 +176,11 @@ public class PreyWebServices {
 		
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		parameters.put("api_key", api_key);
-		parameters.put("device[title]", vendor + " " + model);
+		if (applicationNumber!=null&&!"".equals(applicationNumber)){
+			parameters.put("device[title]", applicationNumber);
+		}else{
+			parameters.put("device[title]", vendor + " " + model);
+		}
 		parameters.put("device[device_type]", deviceType);
 		parameters.put("device[os]", "Android");
 		parameters.put("device[os_version]", Build.VERSION.RELEASE);
@@ -199,7 +213,7 @@ public class PreyWebServices {
 
 		return response.getResponseAsString();
 	}
-
+	
 	public PreyAccountData registerNewDeviceToAccount(Context ctx, String email, String password, String deviceType) throws PreyException {
 		PreyConfig preyConfig = PreyConfig.getPreyConfig(ctx);
 		HashMap<String, String> parameters = new HashMap<String, String>();
@@ -248,10 +262,31 @@ public class PreyWebServices {
 
 	}
 	
-	public PreyAccountData registerNewDeviceWithApiKeyEmail(Context ctx, String apiKey,String email, String deviceType) throws PreyException {
+	public PreyAccountData registerNewDeviceWithApiKeyEmail(Context ctx, String apiKey,String email,String deviceType) throws PreyException {
 		int from;
 		int to;
 		String xmlDeviceId = this.registerNewDevice(ctx, apiKey, deviceType);
+
+		if (!xmlDeviceId.contains("<key"))
+			throw new PreyException(ctx.getString(R.string.error_cant_add_this_device,"Error"));
+
+		from = xmlDeviceId.indexOf("<key>") + 5;
+		to = xmlDeviceId.indexOf("</key>");
+		String deviceId = xmlDeviceId.substring(from, to);
+
+		PreyAccountData newAccount = new PreyAccountData();
+		newAccount.setApiKey(apiKey);
+		newAccount.setDeviceId(deviceId);
+		newAccount.setEmail(email);
+		newAccount.setPassword("");
+		return newAccount;
+
+	}
+	
+	public PreyAccountData registerNewDeviceWithApiKeyEmailApplicationNumber(Context ctx, String apiKey,String email,String applicationNumber, String deviceType) throws PreyException {
+		int from;
+		int to;
+		String xmlDeviceId = this.registerNewDevice(ctx, apiKey, deviceType,applicationNumber);
 
 		if (!xmlDeviceId.contains("<key"))
 			throw new PreyException(ctx.getString(R.string.error_cant_add_this_device,"Error"));

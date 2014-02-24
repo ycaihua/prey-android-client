@@ -7,7 +7,7 @@
 -->
 <resources>
     <string name="preyForAndroid_name">Prey</string>
-    <string name="prey_version">1.0.3</string>
+    <string name="prey_version">1.0.6</string>
     <!-- commons -->
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -235,6 +235,7 @@
     <string name="feedback_form_button1">OK, send</string>
     <string name="feedback_form_button2">NO, thanks</string>
     <string name="feedback_form_send_email">Send Email</string>
-    
-    
+    <!-- batch -->
+    <string name="your_application_number">Enter client\'s email</string>
+    <string name="close">Close</string>
 </resources>

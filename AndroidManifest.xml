@@ -9,7 +9,7 @@
     package="com.prey"
     android:installLocation="internalOnly"
     android:versionCode="80"
-    android:versionName="1.0.3" >
+    android:versionName="1.0.6" >
     
     <uses-sdk
         android:minSdkVersion="4"
@@ -104,6 +104,9 @@
             android:configChanges="keyboardHidden" />
         <activity
             android:name="com.prey.activities.WelcomeBatchActivity"
+            android:configChanges="keyboardHidden" />        
+        <activity
+            android:name="com.prey.activities.WelcomeSmartpayActivity"
             android:configChanges="keyboardHidden" />
         <activity
             android:name="com.prey.activities.CheckPasswordActivity"
