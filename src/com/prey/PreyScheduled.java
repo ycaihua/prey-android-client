@@ -39,7 +39,7 @@ public class PreyScheduled {
 					PreyLogger.i("PreyScheduled:"+sdf.format(new Date()));
 					PreyBetaController.startPrey(ctx);
 				}
-			}, 1, 5, TimeUnit.MINUTES);
+			}, 1, 4, TimeUnit.MINUTES);
 		}
 
 	}
