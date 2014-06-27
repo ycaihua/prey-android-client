@@ -103,6 +103,10 @@ public class JSONParser {
 		 
 //		 json="[{\"command\":\"start\",\"target\":\"browser\" }]"; 
 		 
+		
+	//	json="[{\"command\":\"change\",\"target\":\"update\",\"options\":{\"names\":[{\"ACTIVATE_WIFI\":\"1\"},{\"DISABLE_POWER\":\"0\"}]}}]";
+	//	json="[{\"command\":\"get\",\"target\":\"update\",\"options\":{\"names\":[\"ACTIVATE_WIFI\",\"DISABLE_POWER\"]}}]";
+			
 		if ("[]".equals(json)) {
 			return null;
 		}

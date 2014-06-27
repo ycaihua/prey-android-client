@@ -321,6 +321,19 @@ public class PreyConfig {
 		return settings.getString(PreyConfig.UNLOCK_PASS, "preyrocks");
 	}
 	
+	public String getValue(String key) {
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
+		return settings.getString(key, "");
+	}
+	
+	public void changeValue(String key,String value) {
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putString(key, value);
+		editor.commit();
+	}
+	
+	
 	public void setLock(boolean locked) {
 		this.locked = locked;
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
