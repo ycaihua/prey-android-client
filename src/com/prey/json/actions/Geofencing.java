@@ -14,15 +14,12 @@ import org.json.JSONObject;
  
  
  
+
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
  
-import com.prey.PreyConfig;
 import com.prey.PreyLogger;
- 
-import com.prey.actions.HttpDataService;
-import com.prey.actions.geo.ProxAlertActivity;
+import com.prey.actions.HttpDataService; 
+import com.prey.actions.geo.PreyScan;
 import com.prey.actions.observer.ActionResult;
  
  
@@ -40,7 +37,7 @@ public class Geofencing extends JsonAction{
 
 			
 			 
-			 
+			 /*
 			
 			String origin = parameters.getString("origin");
 			String[] centralPoints = origin.split(",");
@@ -54,19 +51,16 @@ public class Geofencing extends JsonAction{
 			bundle.putDouble("latitude",Double.parseDouble( latitude));
 			bundle.putFloat ("radius",  Float.parseFloat( radius));
 			bundle.putInt("type",ProxAlertActivity.START);
- 
+ */
 			
 		
-			Intent popup = new Intent(ctx, ProxAlertActivity.class);
-			popup.putExtras(bundle);
-			popup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			ctx.startActivity(popup);
-			
+			PreyScan scan= PreyScan.getInstance(ctx);
+			scan.startScan();
  
 
 		 PreyLogger.i("Finish Geofencing start");
 			
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			PreyLogger.e("Error en json:" + e.getMessage(), e);
 			PreyWebServices.getInstance().sendNotifyActionResultPreyHttp(ctx,UtilJson.makeMapParam("start","geofence","failed",e.getMessage()));
 		}
@@ -76,7 +70,9 @@ public class Geofencing extends JsonAction{
 	public void stop(Context ctx, List<ActionResult> lista, JSONObject parameters) {
 	 
  
-
+		PreyScan scan= PreyScan.getInstance(ctx);
+		scan.stopScan();
+/*
 			Bundle bundle = new Bundle();
  
 			bundle.putInt("type",ProxAlertActivity.STOP);
@@ -85,7 +81,7 @@ public class Geofencing extends JsonAction{
 			popup.putExtras(bundle);
 			popup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			ctx.startActivity(popup);
-
+*/
 		 
 			 PreyLogger.i("Finish Geofencing stop");
 		 
