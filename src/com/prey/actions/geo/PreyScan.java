@@ -107,18 +107,43 @@ public class PreyScan implements GooglePlayServicesClient.ConnectionCallbacks, G
 	            store.address = "Las Urbinas, #53";
 	            store.latitude = -33.4223;
 	            store.longitude = -70.6119;
-	            store.radius = 10.0D;
+	            store.radius = 100.0D;
 
 	            storeList.add(store);
 	            
 	            Store store2 = new Store();
 	            store2.id = "ESQUINA";
-	            store2.address = "LAs urbinas #1";
+	            store2.address = "Esquina";
 	            store2.latitude = -33.4226;
 	            store2.longitude = -70.6111;
-	            store2.radius = 10.0D;
+	            store2.radius = 100.0D;
 	            
 	            storeList.add(store2);
+	            Store store3 = new Store();
+	            store3.id = "SANFELIPE";
+	            store3.address = "San Felipe";
+	            store3.latitude = -33.752251;
+	            store3.longitude = -70.720041;
+	            store3.radius = 1000.0D;
+	            storeList.add(store3);
+	            
+	            Store store4 = new Store();
+	            store4.id = "TERMINAL";
+	            store4.address = "Terminal";
+	            store4.latitude = -33.445099;
+	            store4.longitude = -70.658689;
+	            store4.radius = 100.0D;
+	            
+	            storeList.add(store4);
+	            
+	            Store store5 = new Store();
+	            store5.id = "PLAZAITALIA";
+	            store5.address = "italia";
+	            store5.latitude = -33.436647;
+	            store5.longitude = -70.634130;
+	            store5.radius = 100.0D;
+	            
+	            storeList.add(store5);
 	      //  }
 
 	        return storeList;
