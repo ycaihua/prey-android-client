@@ -1,5 +1,6 @@
 package com.prey.actions.geo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.IntentService;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
+import com.google.android.gms.drive.internal.AddEventListenerRequest;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationClient;
 import com.prey.R;
@@ -31,11 +33,42 @@ public class GeofenceIntentService extends IntentService {
                     transitionType == Geofence.GEOFENCE_TRANSITION_EXIT) {
                 List<Geofence> triggerList = LocationClient.getTriggeringGeofences(intent);
 
+            
+               
+                
                 for (Geofence geofence : triggerList) {
-                    generateNotification(geofence.getRequestId(), "address you defined");
+                    generateNotification(geofence.getRequestId(), "("+getAddress(geofence.getRequestId())+")"+transitionMsg(transitionType));
                 }
             }
         }
+    }
+    
+    public String getAddress(String requestId){
+    	ArrayList<Store> storeList=PreyScan.getInstance(getApplicationContext()).getStoreList();
+    	String address="";
+    	for(int i=0;storeList!=null&&i<storeList.size();i++){
+    		Store store=storeList.get(i);
+    		if (store.id.equals(requestId)){
+    			address=store.address;
+    			break;
+    		}
+    	}
+    	return address;
+    }
+    public String transitionMsg(int transitionType){
+    	String msg="";
+    	switch (transitionType) {
+		case Geofence.GEOFENCE_TRANSITION_ENTER:
+			msg= "ENTER";
+			break;
+		case Geofence.GEOFENCE_TRANSITION_DWELL:
+			msg= "DWELL";
+			break;
+		default:
+			msg= "EXIT";
+			break;
+		}
+    	return msg;
     }
 
     private void generateNotification(String locationId, String address) {

@@ -63,9 +63,11 @@ public class PreyScan implements GooglePlayServicesClient.ConnectionCallbacks, G
 	@Override
 	public void onConnected(Bundle connectionHint) {
 		locationRequest = LocationRequest.create();
-        locationRequest.setInterval(5 * 50 * 1000);
-        locationRequest.setFastestInterval(5 * 50 * 1000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        locationRequest.setInterval(5*60 * 1000);
+        locationRequest.setFastestInterval(5*60 * 1000);
+        
+       locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+       //locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         Intent intent = new Intent(context, LocationIntentService.class);
         PendingIntent pendingIntent = PendingIntent.getService(context, 1, intent, 0);
@@ -79,6 +81,7 @@ public class PreyScan implements GooglePlayServicesClient.ConnectionCallbacks, G
                 Geofence geofence = new Geofence.Builder()
                         .setRequestId(store.id)
                         .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
+                        //.setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
                         .setCircularRegion(store.latitude, store.longitude, radius)
                         .setExpirationDuration(Geofence.NEVER_EXPIRE)
                         .build();
@@ -99,7 +102,7 @@ public class PreyScan implements GooglePlayServicesClient.ConnectionCallbacks, G
 		
 	}
 	
-	 private ArrayList<Store> getStoreList() {
+	 public ArrayList<Store> getStoreList() {
 	        ArrayList<Store> storeList = new ArrayList<Store>();
 	       // for (int i = 0; i < 20; i++) {
 	            Store store = new Store();
@@ -107,7 +110,7 @@ public class PreyScan implements GooglePlayServicesClient.ConnectionCallbacks, G
 	            store.address = "Las Urbinas, #53";
 	            store.latitude = -33.4223;
 	            store.longitude = -70.6119;
-	            store.radius = 100.0D;
+	            store.radius = 50.0D;
 
 	            storeList.add(store);
 	            
@@ -116,7 +119,7 @@ public class PreyScan implements GooglePlayServicesClient.ConnectionCallbacks, G
 	            store2.address = "Esquina";
 	            store2.latitude = -33.4226;
 	            store2.longitude = -70.6111;
-	            store2.radius = 100.0D;
+	            store2.radius = 50.0D;
 	            
 	            storeList.add(store2);
 	            Store store3 = new Store();
@@ -124,7 +127,7 @@ public class PreyScan implements GooglePlayServicesClient.ConnectionCallbacks, G
 	            store3.address = "San Felipe";
 	            store3.latitude = -33.752251;
 	            store3.longitude = -70.720041;
-	            store3.radius = 1000.0D;
+	            store3.radius = 500.0D;
 	            storeList.add(store3);
 	            
 	            Store store4 = new Store();
@@ -132,7 +135,7 @@ public class PreyScan implements GooglePlayServicesClient.ConnectionCallbacks, G
 	            store4.address = "Terminal";
 	            store4.latitude = -33.445099;
 	            store4.longitude = -70.658689;
-	            store4.radius = 100.0D;
+	            store4.radius = 50.0D;
 	            
 	            storeList.add(store4);
 	            
@@ -141,9 +144,32 @@ public class PreyScan implements GooglePlayServicesClient.ConnectionCallbacks, G
 	            store5.address = "italia";
 	            store5.latitude = -33.436647;
 	            store5.longitude = -70.634130;
-	            store5.radius = 100.0D;
+	            store5.radius = 50.0D;
 	            
 	            storeList.add(store5);
+	            
+	            Store store6 = new Store();
+	            store6.id = "TERISITA";
+	            store6.address = "terisita";
+	            store6.latitude =  -32.89088527;
+	            store6.longitude =-70.6759581;
+	            store6.radius = 100.0D;
+	            
+	            storeList.add(store6);
+	            
+	            
+	            Store store7 = new Store();
+	            store7.id = "CHINO";
+	            store7.address = "chino";
+	            store7.latitude =  -33.42525858;
+	            store7.longitude = -70.60954392;
+	            store7.radius = 50.0D;
+	            
+	            storeList.add(store7);
+	            
+	            
+	           
+	            
 	      //  }
 
 	        return storeList;

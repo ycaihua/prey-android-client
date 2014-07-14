@@ -25,7 +25,7 @@ public class LocationIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Location location = intent.getParcelableExtra(LocationClient.KEY_LOCATION_CHANGED);
 
-        generateNotification("Fused Location", location.getLatitude() + " " + location.getLongitude());
+      //  generateNotification("Fused Location", location.getLatitude() + " " + location.getLongitude());
     }
 
     private void generateNotification(String title, String content) {
