@@ -72,7 +72,7 @@ public class JSONParser {
 
 		// json="[ {\"command\": \"start\",\"target\": \"geofencing\",\"options\": {\"origin\": \"-70.7193117,-32.7521112\",\"radius\": \"100\" }}]";
 
-		 json="[ {\"command\": \"start\",\"target\": \"geofencing\",\"options\": {\"id\":\"id1\",\"origin\":\"-70.60713481,-33.42372147\",\"radius\":\"100\",\"type:\":\"in\",\"expire\":\"-1\" }}]";
+		// json="[ {\"command\": \"start\",\"target\": \"geofencing\",\"options\": {\"id\":\"id1\",\"origin\":\"-70.60713481,-33.42372147\",\"radius\":\"100\",\"type:\":\"in\",\"expire\":\"-1\" }}]";
 		// json="[ {\"command\": \"stop\",\"target\": \"geofencing\",\"options\": {\"id\":\"id1\"}}]";
 
 		// json="[{\"command\":\"start\",\"target\":\"alert\",\"options\":{\"message\":\"This device i.\"}},{\"command\":\"start\",\"target\":\"alarm\",\"options\":null}, {\"command\":\"get\",\"target\":\"report\",\"options\":{\"include\"[\"picture\",\"location\",\"screenshot\",\"access_points_list\"]}}]";
