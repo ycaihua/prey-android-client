@@ -127,6 +127,7 @@ public class PreyConfig {
 
 	public static final String TAG = "PREY";
 	private static final String PICTURE_FILENAME = "PICTURE_FILENAME"; 
+	private static final String BATCH_DATE = "BATCH_DATE"; 
 
 	private static PreyConfig cachedInstance = null;
 	public static String postUrl = null;
@@ -182,6 +183,8 @@ public class PreyConfig {
 	
 	private long lowBatteryDate;
 	
+	private long bachDate;
+	
 	private Context ctx;
 
 	private PreyConfig(Context ctx) {
@@ -233,6 +236,7 @@ public class PreyConfig {
 		this.nextAlert=settings.getBoolean(PreyConfig.NEXT_ALERT, false);
 		this.disablePowerOptions = settings.getBoolean(PreyConfig.PREFS_DISABLE_POWER_OPTIONS, false);
 		this.lowBatteryDate=settings.getLong(PreyConfig.LOW_BATTERY_DATE, 0);
+		this.bachDate=settings.getLong(PreyConfig.BATCH_DATE, 0);
 		saveLong(PreyConfig.INSTALLATION_DATE,installationDate);
 	}
 	
@@ -536,7 +540,7 @@ public class PreyConfig {
 	
 	
 	public void registerC2dm(){
-		//if( PreyWifiManager.getInstance(ctx).isOnline() ){
+		if (PreyEmail.getEmail(ctx) != null) {
 			PreyLogger.d("______________________");
 			PreyLogger.d("______________________");
 			PreyLogger.d("___ registerC2dm _____");
@@ -549,7 +553,7 @@ public class PreyConfig {
 			//PreyLogger.i("gcmId:"+gcmId);
 			registrationIntent.putExtra("sender",gcmId);
 			this.ctx.startService(registrationIntent);
-		//}
+		}
 	}
 	
 	public void unregisterC2dm(boolean updatePrey){
@@ -844,6 +848,15 @@ public class PreyConfig {
 	public long getLastReportStartDate(){
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
 		return settings.getLong(PreyConfig.LAST_REPORT_START_DATE, 0);
+	}
+	
+	public void setBatchDate(long batchDate){
+		saveLong(PreyConfig.BATCH_DATE, batchDate);
+	}
+	
+	public long getBatchDate(){
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
+		return settings.getLong(PreyConfig.BATCH_DATE, 0);
 	}
 	
 	public void setNextAlert(boolean nextAlert){

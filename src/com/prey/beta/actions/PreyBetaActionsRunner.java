@@ -49,8 +49,9 @@ public class PreyBetaActionsRunner implements Runnable {
 			PreyConnectivityManager preyConnectivity = PreyConnectivityManager.getInstance(ctx);
 	 		boolean connection=false;
 	 		try {
+	 			int i=0;
 	 			List<JSONObject> jsonObject =null;
-	 			while(!connection){
+	 			while(!connection&&i<10){
 	 				connection= preyTelephony.isDataConnectivityEnabled() || preyConnectivity.isConnected();
 	 				if(!connection){
 						PreyLogger.d("Phone doesn't have internet connection now. Waiting 10 secs for it");
@@ -65,17 +66,20 @@ public class PreyBetaActionsRunner implements Runnable {
 						}
 						
 						Thread.sleep(10000);
+						i=i+1;
 					}
 	 			}
-	 			try{
-	 				jsonObject = getInstructions();
-	 			}catch(Exception e){}
-	 			PreyLogger.d("version:"+version+" body:"+body);
-	 			if(jsonObject==null||jsonObject.size()==0){
-	 				PreyLogger.d("nothing");
-	 			}else{
-	 				PreyLogger.d("runInstructions");
-	 				runInstructions(jsonObject);
+	 			if(connection){
+	 				try{
+	 					jsonObject = getInstructions();
+	 				}catch(Exception e){}
+	 				PreyLogger.d("version:"+version+" body:"+body);
+	 				if(jsonObject==null||jsonObject.size()==0){
+	 					PreyLogger.d("nothing");
+	 				}else{
+	 					PreyLogger.d("runInstructions");
+	 					runInstructions(jsonObject);
+	 				}
 	 			}
 			} catch (Exception e) {
 				PreyLogger.e("Error, because:"+e.getMessage(),e );

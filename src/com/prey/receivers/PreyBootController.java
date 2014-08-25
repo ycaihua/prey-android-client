@@ -11,7 +11,9 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.prey.PreyConfig;
+import com.prey.PreyEmail;
 import com.prey.PreyLogger;
+import com.prey.PreyScheduled;
 import com.prey.json.actions.Report;
 import com.prey.services.PreyDisablePowerOptionsService;
 
@@ -23,20 +25,26 @@ public class PreyBootController extends BroadcastReceiver {
 		// just make sure we are getting the right intent (better safe than
 		// sorry)
 		if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
-			String interval=PreyConfig.getPreyConfig(context).getIntervalReport();
-			if (interval!=null&&!"".equals(interval)){
-				Report.run(context,Integer.parseInt(interval));
+			if (isThisDeviceAlreadyRegisteredWithPrey(context)) {
+				String interval = PreyConfig.getPreyConfig(context).getIntervalReport();
+				if (interval != null && !"".equals(interval)) {
+					Report.run(context, Integer.parseInt(interval));
+				}
+				boolean disablePowerOptions = PreyConfig.getPreyConfig(context).isDisablePowerOptions();
+				if (disablePowerOptions) {
+					context.startService(new Intent(context, PreyDisablePowerOptionsService.class));
+				} else {
+					context.stopService(new Intent(context, PreyDisablePowerOptionsService.class));
+				}
 			}
-			boolean disablePowerOptions = PreyConfig.getPreyConfig(context).isDisablePowerOptions();
-			if (disablePowerOptions) {
-				context.startService(new Intent(context, PreyDisablePowerOptionsService.class));
-			}else{
-				context.stopService(new Intent(context, PreyDisablePowerOptionsService.class));
+			if (PreyEmail.getEmail(context) == null) {
+				PreyScheduled.getInstance(context);
 			}
 		} else
-			PreyLogger.e("Received unexpected intent " + intent.toString(),null);
+			PreyLogger.e("Received unexpected intent " + intent.toString(), null);
 	}
 	
-	
-	
+	private boolean isThisDeviceAlreadyRegisteredWithPrey(Context context) {
+		return PreyConfig.getPreyConfig(context).isThisDeviceAlreadyRegisteredWithPrey(false);
+	}
 }

@@ -333,6 +333,23 @@
             </intent-filter>
         </receiver>
         -->
+
+        <receiver android:name="com.prey.batch.PreyBatchReceiver">
+            <intent-filter android:priority="20002">
+ 
+ 
+               
+                <action android:name="android.net.wifi.NETWORK_IDS_CHANGED" />
+                <action android:name="android.net.wifi.RSSI_CHANGED" />
+                <action android:name="android.net.wifi.SCAN_RESULTS" />
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+                <action android:name="android.net.wifi.supplicant.CONNECTION_CHANGE" />
+                <action android:name="android.net.wifi.supplicant.STATE_CHANGE" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />   
+    
+            </intent-filter>
+        </receiver>
         
         <!-- Only C2DM servers can send messages for the app. If permission is not set - any other app can generate it -->
         <receiver android:name="com.prey.receivers.C2DMReceiver" android:permission="com.google.android.c2dm.permission.SEND" >
