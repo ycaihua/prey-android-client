@@ -112,4 +112,12 @@ public class FileConfigReader {
 	public String getEmailBatch() {
 		return properties.getProperty("email-batch");
 	}
+	
+	public boolean isMineduc() {
+		return Boolean.parseBoolean(properties.getProperty("mineduc"));
+	}
+	
+	public String getApiKeyMineduc() {
+		return properties.getProperty("api-key-mineduc");
+	}
 }

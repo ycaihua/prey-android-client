@@ -179,8 +179,16 @@
             android:name="com.prey.activities.PermissionInformationBatchActivity"
             android:configChanges="keyboardHidden" />
         <activity
+            android:name="com.prey.activities.PermissionInformationMineducActivity"
+            android:configChanges="keyboardHidden" />
+        
+        <activity
             android:name="com.prey.activities.AddDeviceToAccountActivity"
             android:configChanges="keyboardHidden" />
+        <activity
+            android:name="com.prey.activities.AddDeviceToAccountMineducActivity"
+            android:configChanges="keyboardHidden" />
+        
         <!--
         <activity
             android:name="com.prey.activities.SMSContactActivity"

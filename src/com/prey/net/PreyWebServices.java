@@ -7,6 +7,7 @@
 package com.prey.net;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,8 +32,10 @@ import org.json.JSONObject;
  
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 
 import com.prey.FileConfigReader;
@@ -216,6 +219,108 @@ public class PreyWebServices {
 		return response;
 	}
 
+	public PreyAccountData registerNewDeviceToAccountMineduc(Context ctx, String pats, String rbd, String deviceType) throws PreyException {
+		PreyLogger.d("pats:"+pats+" rbd:"+rbd);
+		String apikeyMineduc=PreyConfig.getPreyConfig(ctx).getApiKeyMineduc();
+		PreyHttpResponse responseDevice = registerNewDeviceMineduc(ctx, apikeyMineduc,pats,rbd, deviceType);
+		String xml=responseDevice.getResponseAsString();
+		int from;
+		int to;
+		String deviceId;
+		try {
+			from = xml.indexOf("<key>") + 5;
+			to = xml.indexOf("</key>");
+			deviceId = xml.substring(from, to);
+		} catch (Exception e) {
+			throw new PreyException(ctx.getString(R.string.error_cant_add_this_device,responseDevice.getStatusLine().getStatusCode()));
+		}
+		PreyAccountData newAccount = new PreyAccountData();
+		newAccount.setApiKey(apikeyMineduc );
+		newAccount.setDeviceId(deviceId);
+		newAccount.setEmail("");
+		newAccount.setPassword("");
+		return newAccount;
+	}
+	
+	@SuppressLint("NewApi")
+	private PreyHttpResponse registerNewDeviceMineduc(Context ctx, String apiKey,String pats, String rbd, String deviceType) throws PreyException {
+	 
+		
+ 
+		 
+	 
+			                   
+		String model = Build.MODEL;
+		String vendor = "Google";
+		if (!PreyConfig.getPreyConfig(ctx).isCupcakeOrAbove())
+			vendor = AboveCupcakeSupport.getDeviceVendor();
+		
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		/*parameters.put("api_key", apiKey);
+		parameters.put("title", vendor + " " + model);
+		parameters.put("device_type", deviceType);
+		parameters.put("os", "Android");
+		parameters.put("os_version", Build.VERSION.RELEASE);
+		parameters.put("referer_device_id", "");
+		parameters.put("plan", "free");
+		parameters.put("activation_phrase", preyConfig.getSmsToRun());
+		parameters.put("deactivation_phrase", preyConfig.getSmsToStop());
+		parameters.put("model_name", model);
+		parameters.put("vendor_name", vendor);*/
+		 String mac="";
+		PreyPhone phone = new PreyPhone(ctx);
+		//Hardware hardware = phone.getHardware();
+		Wifi wifi = phone.getWifi();
+		if (wifi!=null){
+			mac= wifi.getMacAddress();
+		}
+		 
+		parameters.put("api_key", apiKey);
+		parameters.put("device[title]", vendor + " " + model);
+		parameters.put("device[device_type]", deviceType);
+		parameters.put("device[os]", "Android");
+		 
+		parameters.put("device[os_version]", Build.VERSION.RELEASE);
+ 
+         
+		parameters.put("device[identifiers_attributes][][name]", "pats_code");
+		parameters.put("device[identifiers_attributes][][code]", pats);//pats
+		parameters.put("device[identifiers_attributes][][name]", "rbd_code");
+		parameters.put("device[identifiers_attributes][][code]", rbd);//rbd
+		  
+		//parameters.put("device[hardware_attributes][network][nic_1][mac_address]", mac);//rbd
+ 
+				
+				
+		
+		//parameters=increaseData(ctx,parameters);
+		TelephonyManager mTelephonyMgr = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+		//String imsi = mTelephonyMgr.getSubscriberId();
+		String imei = mTelephonyMgr.getDeviceId();
+	//	parameters.put("physical_address", imei);
+
+		PreyHttpResponse response = null;
+		try {
+			String apiv1=FileConfigReader.getInstance(ctx).getApiV1();
+			String url="http://54.85.112.107/".concat(apiv1).concat("devices.xml"); 
+			PreyLogger.d("url:"+url);
+			response = PreyRestHttpClient.getInstance(ctx).post(url, parameters);
+			PreyLogger.d("response:"+response.getStatusLine() +" "+ response.getResponseAsString());
+			// No more devices allowed
+			
+			if ((response.getStatusLine().getStatusCode() == 302) || (response.getStatusLine().getStatusCode() == 422)||(response.getStatusLine().getStatusCode() == 403)) {
+				throw new NoMoreDevicesAllowedException(ctx.getText(R.string.set_old_user_no_more_devices_text).toString());
+			}
+			if (response.getStatusLine().getStatusCode()>299){
+				throw new PreyException(ctx.getString(R.string.error_cant_add_this_device,"["+response.getStatusLine().getStatusCode()+"]"));
+			}
+		} catch (IOException e) {
+			throw new PreyException(ctx.getText(R.string.error_communication_exception).toString(), e);
+		}
+
+		return response;
+	}
+	
 	public PreyAccountData registerNewDeviceToAccount(Context ctx, String email, String password, String deviceType) throws PreyException {
 		PreyLogger.d("email:"+email+" password:"+password);
 		PreyConfig preyConfig = PreyConfig.getPreyConfig(ctx);

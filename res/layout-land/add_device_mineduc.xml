@@ -14,7 +14,7 @@
     android:weightSum="3" >
 
 <LinearLayout
-  
+    
     android:layout_width="0dp"
     android:layout_height="fill_parent"
     android:layout_weight="2"
@@ -40,8 +40,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:hint="@string/your_prey_email"
-        android:inputType="textEmailAddress">
+        android:hint="@string/your_pats_serial"
+        android:inputType="text">
 
         <requestFocus />
     </EditText>
@@ -51,8 +51,8 @@
         style="@style/PreyEditText"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:hint="@string/your_prey_pass"
-        android:inputType="textPassword">
+        android:hint="@string/your_rbd_codigo"
+        android:inputType="text">
 
     </EditText>
 

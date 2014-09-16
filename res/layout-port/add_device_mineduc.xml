@@ -5,43 +5,28 @@
   License: GPLv3
   Full license at "/LICENSE"
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/screen_bg"
-    android:gravity="center_horizontal"
-    android:orientation="horizontal"
-    android:weightSum="3" >
-
-<LinearLayout
-  
-    android:layout_width="0dp"
-    android:layout_height="fill_parent"
-    android:layout_weight="2"
-    android:background="@color/screen_bg"
-    android:orientation="vertical" >
+    android:background="@color/screen_bg" >
 
     <TextView
         android:id="@+id/add_device_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:gravity="center_horizontal"
         android:text="@string/log_in_to_prey_h1"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/darker_txt"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+        android:textColor="@color/darker_txt" />
 
     <EditText
         android:id="@+id/add_device_email"
         style="@style/PreyEditText"
-        android:layout_width="match_parent"
+        android:layout_below="@+id/add_device_title"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:hint="@string/your_prey_email"
-        android:inputType="textEmailAddress">
+        android:hint="@string/your_pats_serial"
+        android:inputType="text">
 
         <requestFocus />
     </EditText>
@@ -49,21 +34,21 @@
     <EditText
         android:id="@+id/add_device_pass"
         style="@style/PreyEditText"
+        android:layout_below="@+id/add_device_email"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:hint="@string/your_prey_pass"
-        android:inputType="textPassword">
+        android:hint="@string/your_rbd_codigo"
+        android:inputType="text">
 
     </EditText>
 
     <Button
         android:id="@+id/add_device_btn_ok"
         style="@style/PreyButton"
-        android:layout_gravity="center_horizontal|bottom"
+        android:layout_below="@+id/add_device_pass"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:text="@string/add_this_device" />
 
-</LinearLayout>
-</LinearLayout>
+</RelativeLayout>

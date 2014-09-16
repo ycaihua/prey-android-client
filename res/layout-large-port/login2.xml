@@ -12,18 +12,14 @@
 
     <include layout="@layout/header_port" />
 
-    <Button
-        android:id="@+id/login_btn_cp"
-        style="@style/PreyButton.Large"
-        android:layout_above="@+id/login_btn_settings"
-        android:text="@string/login_cp"/>
+  
 
     <Button
-        android:id="@+id/login_btn_settings"
+        android:id="@+id/login_btn_cp"
         style="@style/PreyButton.Large"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
         android:layout_marginTop="5dp"
-        android:text="@string/manage_prey_settings"/>
+        android:text="@string/login_cp"/>
 
 </RelativeLayout>

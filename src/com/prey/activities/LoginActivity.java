@@ -54,29 +54,34 @@ public class LoginActivity extends PasswordActivity {
 	private void startup() {
 		if (!isThisDeviceAlreadyRegisteredWithPrey()) {
 			Intent intent =null;
-			if (!isThereBatchInstallationKey()){
-				intent = new Intent(LoginActivity.this, WelcomeActivity.class);
-				
+			if(isMineduc()){
+				intent = new Intent(LoginActivity.this, AddDeviceToAccountMineducActivity.class);
 			}else{
-				intent = new Intent(LoginActivity.this, WelcomeBatchActivity.class);
+				if (!isThereBatchInstallationKey()){
+					intent = new Intent(LoginActivity.this, WelcomeActivity.class);
+				
+				}else{
+					intent = new Intent(LoginActivity.this, WelcomeBatchActivity.class);
+				}
 			}
 			startActivity(intent);
 			finish();
 		} else {
 			PreyVerify.getInstance(this);
-			if(getPreyConfig().showFeedback()){
-				showFeedback(getApplicationContext());
-			}else{
-					showLogin();
-			}
+			 
+				
+			 
+
+					showLoginMineduc();
+			 
 		}
 	}
-
-	private void showLogin() {
-		setContentView(R.layout.login);
-		updateLoginScreen();
+	
+	private void showLoginMineduc() {
+		setContentView(R.layout.login2);
+	
 		Button gotoCP = (Button) findViewById(R.id.login_btn_cp);
-		Button gotoSettings = (Button) findViewById(R.id.login_btn_settings);
+		 
 
 		gotoCP.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
@@ -89,28 +94,25 @@ public class LoginActivity extends PasswordActivity {
 			}
 		});
 
-		gotoSettings.setOnClickListener(new Button.OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(LoginActivity.this, CheckPasswordActivity.class);
-				startActivity(intent);
-			}
-		});
+	 
 	}
+
+	 
 	 
 	private boolean isThisDeviceAlreadyRegisteredWithPrey() {
 		return getPreyConfig().isThisDeviceAlreadyRegisteredWithPrey(false);
 	}
 
 	
-	private void showFeedback(Context ctx){
-		Intent popup = new Intent(ctx, FeedbackActivity.class);
-		popup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		ctx.startActivity(popup);
-	}
+ 
 	
 	private boolean isThereBatchInstallationKey() {
 		String apiKeyBatch=getPreyConfig().getApiKeyBatch();
 		return (apiKeyBatch!=null&&!"".equals(apiKeyBatch));
+	}
+	
+	private boolean isMineduc(){
+		return PreyConfig.getPreyConfig(this).isMineduc();
 	}
 
 }

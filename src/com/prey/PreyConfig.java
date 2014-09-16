@@ -868,4 +868,14 @@ public class PreyConfig {
 		}
 		return isConnectionExists;
 	}
+
+	 
+	public boolean isMineduc() {
+		return FileConfigReader.getInstance(this.ctx).isMineduc();
+	}
+	
+	public String getApiKeyMineduc() {
+		return FileConfigReader.getInstance(this.ctx).getApiKeyMineduc();
+	}
+	
 }
