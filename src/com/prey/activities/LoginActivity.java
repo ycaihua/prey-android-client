@@ -72,7 +72,7 @@ public class LoginActivity extends PasswordActivity {
 		if (!isThisDeviceAlreadyRegisteredWithPrey()) {
 			Intent intent = null;
 			if (!isThereBatchInstallationKey()) {
-				intent = new Intent(LoginActivity.this, WelcomeActivity.class);
+				intent = new Intent(LoginActivity.this, TourActivity.class);
 
 			} else {
 				intent = new Intent(LoginActivity.this, WelcomeBatchActivity.class);

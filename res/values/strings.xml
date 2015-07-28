@@ -254,4 +254,49 @@
     <string name="login_to_prey">Login to Prey</string>
     <string name="login_setting_h1_text">LOGIN TO SETTINGS</string>
     <string name="login_setting_h2_text">For your security, type your password\nto manage Prey device settings.</string>
+    <string name="title_template_step">oso</string>
+    <string name="lorem_ipsum">oso2</string>
+    
+    <string name="tour_body_0">Theft protection for your mobile.</string>
+    <string name="tour_title_1">A THIEF\'S WORST NIGHTMARE</string>
+    <string name="tour_body_1">Prey uses a remote activation system which means the program sits silently in your computer until you actually want it ti run.</string>
+    <string name="tour_title_2">A UNIFIED REMOTE CONTROL</string>
+    <string name="tour_body_2">Prey uses a remote activation system which means the program sits silently in your computer until you actually want it ti run.</string>
+    <string name="tour_title_3">BATTERY JUICE IS KEY</string>
+    <string name="tour_body_3">Prey uses a remote activation system which means the program sits silently in your computer until you actually want it ti run.</string>
+    <string name="tour_title_4">PROVEN RESULTS TO SHOW</string>
+    <string name="tour_body_4">This guy right here recovered his phone in [location] a few weeks ago. Upon recovery he said "This shit is the shit!".</string>
+    <string name="tour_title_5">FREE WITH NO GIMMICKS</string>
+    <string name="tour_body_5">Prey uses a remote activation system which means the program sits silently in your computer until you actually want it ti run.</string>
+    <string name="tour_new_account">NEW ACCOUNT</string>
+    <string name="tour_already_have_an_account">Already have an account?</string>
+    <string name="tour_sign_up">Sign up</string>
+    <string name="tour_signing_you_up">Signing you up..</string>
+    
+    <string name="tour_existing_user">EXISTING USER</string>
+    <string name="tour_dont_have_an_account">Don\´t have an account?</string>
+    
+    
+    <string name="tour_success">Success!</string>
+    <string name="tour_alert_title">SOMETHING\'S NOT RIGHT</string>
+    <string name="tour_alert_body">Looks like we\'re having trouble connecting to the servers. Please try again in a second. If the problem persists, check our service\'s status at status.preyproject.com.</string>
+    <string name="tour_privileges_off_title">PRIVILEGES NEEDED</string>
+    <string name="tour_privileges_off_body">To finish the installation, you need to grant Prey a few privileges. Without them some features won\'t work.</string>
+    <string name="tour_privileges_off_button">Permissions missing</string>
+    <string name="tour_privileges_on_title">PRIVILEGES NEEDED</string>
+    <string name="tour_privileges_on_body">To finish the installation, you need to grant Prey a few privileges. Without them some features won\'t work.</string>
+    <string name="tour_privileges_on_button">finish installation</string>
+    <string name="tour_device_protected_title">DEVICE PROTECTED</string>
+    <string name="tour_manage_app_settings_button">Manage app settings</string>
+    <string name="tour_log_into_my_account_button">Log into my account</string>
+    <string name="tour_some_permissions_are_missing_title">SOME PERMISSIONS ARE MISSING</string>
+    <string name="tour_show_permissions_screen_button">Show permissions screen</string>
+    <string name="tour_prey_settings_title">PREY SETTINGS</string>
+    <string name="tour_prey_camo_title">PREY CAMOUFLAGE</string>
+    <string name="tour_prey_camo_button">Prey Camo</string>
+    <string name="tour_prey_camo_body">Lorem ipsum dolor</string>
+    <string name="tour_prey_safelock_title">PREY SAFELOCK</string>
+    <string name="tour_prey_safelock_button">Prey Safelock</string>
+    <string name="tour_prey_safelock_body">Lorem ipsum dolor</string>
+    
 </resources>

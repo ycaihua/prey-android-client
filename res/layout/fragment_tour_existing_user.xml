@@ -1,0 +1,66 @@
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#202B3A"
+    >
+
+    <!-- Dummy content. -->
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+        
+         
+
+        <TextView android:id="@android:id/text1"
+            style="?android:textAppearanceLarge"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/tour_existing_user"
+             />
+        
+ 
+    <EditText
+        android:id="@+id/new_account_email"
+        style="@style/PreyEditText"
+        
+         android:layout_marginBottom="2dp"
+         
+        android:hint="@string/your_email"
+        android:inputType="textEmailAddress"
+     >
+        <requestFocus />
+    </EditText>
+    
+    <EditText
+        android:id="@+id/new_account_pass"
+        style="@style/PreyEditText"
+         android:layout_marginBottom="2dp"
+        
+        android:hint="@string/choose_a_6_char_pass"
+        android:inputType="textPassword">
+    </EditText>
+
+        <TextView style="?android:textAppearanceMedium"
+            android:lineSpacingMultiplier="1.2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tour_dont_have_an_account" />
+        
+       <Button
+        android:id="@+id/new_account_btn_ok"
+        style="@style/PreyButton3.Small"
+       
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:text="@string/tour_sign_up" />
+    
+
+    </LinearLayout>
+
+</ScrollView>

@@ -112,6 +112,10 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.prey.activities.TourActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.prey.activities.CheckPasswordActivity"
             android:launchMode="singleInstance"
             android:noHistory="true" 

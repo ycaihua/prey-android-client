@@ -1,0 +1,44 @@
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#202B3A"
+    >
+
+    <!-- Dummy content. -->
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+        
+        <ImageView android:src="@drawable/rectangulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            />
+
+        <TextView android:id="@android:id/text1"
+            style="?android:textAppearanceLarge"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             android:text="@string/tour_title_3"
+            android:layout_marginBottom="16dp" />
+        
+
+        <TextView style="?android:textAppearanceMedium"
+            android:lineSpacingMultiplier="1.2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tour_body_3" />
+        
+        <ImageView android:src="@drawable/punto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            />
+
+    </LinearLayout>
+
+</ScrollView>
