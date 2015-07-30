@@ -4,10 +4,13 @@ import com.prey.R;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,21 +77,34 @@ public class TourPageFragment extends Fragment {
 				break;
 			case 6:
 				rootView = (ViewGroup) inflater
-                .inflate(R.layout.fragment_tour_new_account, container, false);
+                .inflate(R.layout.fragment_tour_swipe, container, false);
+				 
+				final ViewGroup rootView2=rootView;
 				
-				
+				   
 				TextView text=(TextView)rootView.findViewById(R.id.tour_already_have_an_account);
 				text.setOnClickListener(new View.OnClickListener() {
 					
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
-					//	Toast.makeText(getActivity(), "Hola", Toast.LENGTH_LONG).show();
+					 
 						
-						  inflater
-				                .inflate(R.layout.fragment_tour_page5, container, false);
+						LinearLayout linearLayout=(LinearLayout) rootView2.findViewById(R.id.content2);
+					       
+					        linearLayout.removeAllViews();
+					        
+					        
+						FragmentTransaction trans = getFragmentManager().beginTransaction();
+                        trans.replace(R.id.content2, ExistingUserFragment.newInstance());
+                        trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                        trans.addToBackStack(null);
+                        trans.commit();
+								
+						
+						 
 					}
 				});
+				 
 				break;
 			default:
 				rootView = (ViewGroup) inflater
@@ -112,4 +128,92 @@ public class TourPageFragment extends Fragment {
 	    public int getPageNumber() {
 	        return mPageNumber;
 	    }
+	    
+	    public static class ExistingUserFragment extends Fragment {
+
+	        public static ExistingUserFragment newInstance() {
+	        	ExistingUserFragment f = new ExistingUserFragment();
+	            return f;
+	        }
+
+	        @Override
+	        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	            //Log.d("DEBUG", "onCreateView");
+	        	
+	        	ViewGroup rootView = null;
+	        	rootView = (ViewGroup)  inflater.inflate(R.layout.fragment_tour_existing_user, container, false);
+	        	final ViewGroup rootView2=rootView;
+	        	
+	        	
+	        	TextView text=(TextView)rootView.findViewById(R.id.tour_dont_have_an_account);
+				text.setOnClickListener(new View.OnClickListener() {
+					
+				
+					
+					@Override
+					public void onClick(View v) {
+					 
+						LinearLayout linearLayout=(LinearLayout) rootView2.findViewById(R.id.content2);
+					       
+				        linearLayout.removeAllViews();
+				        
+				        
+						FragmentTransaction trans = getFragmentManager().beginTransaction();
+                        trans.replace(R.id.content2, NewAccountFragment.newInstance());
+                        trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                        trans.addToBackStack(null);
+                        trans.commit();
+								
+						
+						 
+					}
+				});
+				
+				
+	        	return rootView;
+	        }
+	    }
+	    
+	    public static class NewAccountFragment extends Fragment {
+
+	        public static NewAccountFragment newInstance() {
+	        	NewAccountFragment f = new NewAccountFragment();
+	            return f;
+	        }
+
+	        @Override
+	        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	            //Log.d("DEBUG", "onCreateView");
+	        	
+	        	ViewGroup rootView = null;
+	        	rootView = (ViewGroup)  inflater.inflate(R.layout.fragment_tour_new_account, container, false);
+	        	final ViewGroup rootView2=rootView;
+	        	
+	        	TextView text=(TextView)rootView.findViewById(R.id.tour_already_have_an_account);
+				text.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+					 
+						LinearLayout linearLayout=(LinearLayout) rootView2.findViewById(R.id.content2);
+					       
+				        linearLayout.removeAllViews();
+				        
+				        
+						FragmentTransaction trans = getFragmentManager().beginTransaction();
+                        trans.replace(R.id.content2, ExistingUserFragment.newInstance());
+                        trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                        trans.addToBackStack(null);
+                        trans.commit();
+								
+						
+						 
+					}
+				});
+				
+				
+	        	return rootView;
+	        }
+	    }
+	    
 }

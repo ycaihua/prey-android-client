@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentActivity;
 
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.ViewGroup;
 
 public class TourActivity extends FragmentActivity {
 
@@ -64,5 +65,11 @@ public class TourActivity extends FragmentActivity {
 		public int getCount() {
 			return NUM_PAGES;
 		}
+		
+		@Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            super.destroyItem(container, position, object);
+        }
+		
 	}
 }
