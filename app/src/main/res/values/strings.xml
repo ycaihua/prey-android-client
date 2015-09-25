@@ -2,7 +2,7 @@
     <string name="app_name">Prey</string>
 
     <string name="menu_title_1">current device status</string>
-    <string name="menu_title_2">NOT PROTECT, YET.</string>
+    <string name="menu_title_2">NOT PROTECTED, YET.</string>
     <string name="menu_title_3">WE ARE ALMOST THERE</string>
     <string name="menu_title_4">Administration privileges needed</string>
     <string name="menu_title_5">They’ll allow Prey to protect your phone and help you control it if it ever gets lost or stolen. Your information and privacy are safe with us.</string>
@@ -150,6 +150,25 @@
     <string name="new_account_congratulations_text">You\'ve successfully installed Prey on your device. To finish the setup process you need to verify your email address by following the link we just sent to %s.</string>
 
     <string name="updating_info_message">Updating information, please wait…</string>
+
+    <string name="geofence_not_available">Geofence service is not available now</string>
+    <string name="geofence_too_many_geofences">Your app has registered too many geofences</string>
+    <string name="geofence_too_many_pending_intents">You have provided too many PendingIntents to the addGeofences() call</string>
+    <string name="unknown_geofence_error">Unknown error: the Geofence service is not available now</string>
+
+    <string name="geofence_transition_entered">Entered</string>
+    <string name="geofence_transition_exited">Exited</string>
+    <string name="unknown_geofence_transition">Unknown Transition</string>
+
+
+    <string name="geofence_transition_notification_text">Click notification to return to app</string>
+    <string name="geofence_transition_invalid_type">Geofence transition error: invalid transition type %1$d</string>
+    <string name="add_geofences">Add geofences</string>
+    <string name="remove_geofences">Remove geofences</string>
+    <string name="not_connected">GoogleApiClient no yet connected. Try again.</string>
+
+    <string name="geofences_added">Geofences added</string>
+    <string name="geofences_removed">Geofences removed</string>
 
 
 </resources>

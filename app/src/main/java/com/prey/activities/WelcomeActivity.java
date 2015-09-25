@@ -61,6 +61,9 @@ public class WelcomeActivity extends FragmentActivity {
             PreyConfig.getPreyConfig(this).setProtectAccount(false);
             PreyConfig.getPreyConfig(this).setProtectTour(false);
         }
+        if (PreyConfig.getPreyConfig(this).getDeviceId()!=null&&!"".equals(PreyConfig.getPreyConfig(this).getDeviceId())){
+            PreyConfig.getPreyConfig(this).setProtectReady(true);
+        }
 
         if (PreyConfig.getPreyConfig(this).getProtectReady()) {
             ready();
@@ -76,7 +79,7 @@ public class WelcomeActivity extends FragmentActivity {
     }
 
     public void ready() {
-        PreyVerify.getInstance(this);
+        //PreyVerify.getInstance(this);
         PreyConfig.getPreyConfig(this).registerC2dm();
         Intent intent = null;
 

@@ -347,7 +347,9 @@ public class PreyWebServices {
         HashMap<String, String> parameters = new HashMap<String, String>();
         String xml;
         try {
-            xml = PreyRestHttpClient.getInstance(ctx).get(PreyConfig.getPreyConfig(ctx).getPreyUrl().concat("profile.xml"), parameters, preyConfig, email, password)
+            String url=PreyConfig.getPreyConfig(ctx).getPreyUrl().concat("profile.xml");
+            PreyLogger.i("url:"+url);
+            xml = PreyRestHttpClient.getInstance(ctx).get(url, parameters, preyConfig, email, password)
                     .getResponseAsString();
         } catch (IOException e) {
             throw new PreyException(ctx.getText(R.string.error_communication_exception).toString(), e);

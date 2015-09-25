@@ -73,9 +73,7 @@ public class LoginActivity extends PasswordActivity {
 
     private void startup() {
         Intent intent = null;
-        if (isThisDeviceAlreadyRegisteredWithPrey()) {
-            PreyVerify.getInstance(this);
-        }
+
         showLogin();
 
     }

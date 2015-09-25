@@ -17,6 +17,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -49,14 +50,14 @@ public class SignInActivity extends Activity {
 
     @Override
     public void onResume() {
-        PreyLogger.i("onResume of SignInActivity");
+        PreyLogger.d("onResume of SignInActivity");
         super.onResume();
 
     }
 
     @Override
     public void onPause() {
-        PreyLogger.i("onPause of SignInActivity");
+        PreyLogger.d("onPause of SignInActivity");
         super.onPause();
     }
 
@@ -71,7 +72,7 @@ public class SignInActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         this.setContentView(R.layout.signin);
-        PreyLogger.i("onCreate of SignInActivity");
+        PreyLogger.d("onCreate of SignInActivity");
 
         Button buttonSignin = (Button) findViewById(R.id.buttonSignin);
 
@@ -156,7 +157,11 @@ public class SignInActivity extends Activity {
                         if (password.length() < 6 || password.length() > 32) {
                             Toast.makeText(ctx, ctx.getString(R.string.error_password_out_of_range, 6, 32), Toast.LENGTH_LONG).show();
                         } else {
-                            new AddDeviceToAccount().execute(email, password, PreyUtils.getDeviceType(ctx));
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                                new AddDeviceToAccount().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, email, password, PreyUtils.getDeviceType(ctx));
+                            }else{
+                                new AddDeviceToAccount().execute(email, password, PreyUtils.getDeviceType(ctx));
+                            }
                         }
                     }
                 }

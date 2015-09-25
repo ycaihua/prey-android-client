@@ -1,5 +1,10 @@
 <resources>
 
+
+    <style name="Theme.Base" parent="Theme.AppCompat.Light">
+    </style>
+
+
     <style name="AppTheme" parent="android:Theme.Light" />
 
     <style name="PreyTheme" parent="@android:style/Theme.Black">

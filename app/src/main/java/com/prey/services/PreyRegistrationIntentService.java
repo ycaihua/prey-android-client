@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.preference.PreferenceManager;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -57,7 +58,11 @@ public class PreyRegistrationIntentService extends IntentService {
 
     private void sendRegistrationToServer(String token) {
         PreyLogger.i("token:"+token);
-        new UpdateCD2MId().execute(token, getApplicationContext());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            new UpdateCD2MId().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, token, getApplicationContext());
+        }else{
+            new UpdateCD2MId().execute(token, getApplicationContext());
+        }
     }
 
     private class UpdateCD2MId extends AsyncTask<Object, Void, Void> {

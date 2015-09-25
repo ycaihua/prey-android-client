@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
@@ -37,14 +38,22 @@ public class PasswordActivity extends PreyActivity {
             public void onClick(View v) {
                 final String passwordtyped = pass1.getText().toString();
                 final Context ctx = getApplicationContext();
-                if (passwordtyped.equals(""))
-                    Toast.makeText(ctx, R.string.preferences_password_length_error, Toast.LENGTH_LONG).show();
-                else {
-                    if (passwordtyped.length() < 6 || passwordtyped.length() > 32) {
-                        Toast.makeText(ctx, ctx.getString(R.string.error_password_out_of_range, 6, 32), Toast.LENGTH_LONG).show();
-                    } else {
-                        new CheckPassword().execute(passwordtyped);
+                try {
+                    if (passwordtyped.equals(""))
+                        Toast.makeText(ctx, R.string.preferences_password_length_error, Toast.LENGTH_LONG).show();
+                    else {
+                        if (passwordtyped.length() < 6 || passwordtyped.length() > 32) {
+                            Toast.makeText(ctx, ctx.getString(R.string.error_password_out_of_range, 6, 32), Toast.LENGTH_LONG).show();
+                        } else {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
+                                new CheckPassword().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, passwordtyped);
+                            }else {
+                                new CheckPassword().execute(passwordtyped);
+                            }
+                        }
                     }
+                }catch (Exception e){
+                    PreyLogger.i("Error en lllamar CheckPassword:"+e.getMessage());
                 }
 
             }
@@ -70,7 +79,9 @@ public class PasswordActivity extends PreyActivity {
 
         @Override
         protected void onPreExecute() {
+            error = null;
             try {
+                PreyLogger.i("CheckPassword onPreExecute");
                 progressDialog = new ProgressDialog(PasswordActivity.this);
                 progressDialog.setMessage(PasswordActivity.this.getText(R.string.password_checking_dialog).toString());
                 progressDialog.setIndeterminate(true);
@@ -84,8 +95,9 @@ public class PasswordActivity extends PreyActivity {
         @Override
         protected Void doInBackground(String... password) {
             try {
+                PreyLogger.i("CheckPassword doInBackground");
                 String email = getPreyConfig().getEmail();
-                PreyLogger.d("email:"+email+"password[0]:"+password[0]);
+                PreyLogger.i("email:" + email + "password[0]:"+password[0]);
                 isPasswordOk = PreyWebServices.getInstance().checkPassword(PasswordActivity.this, email, password[0]);
 
 
@@ -98,7 +110,8 @@ public class PasswordActivity extends PreyActivity {
         @Override
         protected void onPostExecute(Void unused) {
             try {
-                if (progressDialog.isShowing()) {
+                PreyLogger.i("CheckPassword onPostExecute");
+                if (progressDialog!=null) {
                     progressDialog.dismiss();
                 }
             } catch (Exception e) {

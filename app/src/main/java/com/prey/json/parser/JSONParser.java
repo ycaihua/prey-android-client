@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.prey.PreyConfig;
 import com.prey.PreyLogger;
 import com.prey.net.PreyRestHttpClient;
@@ -112,6 +113,21 @@ public class JSONParser {
 
 
         //	json = "[ {\"command\": \"start\",\"target\": \"detach\",\"options\": {}}]";
+
+        //json="[{\"command\":\"get\",\"target\":\"report\",\"options\":{\"include\":[\"picture\"]}}]";
+
+
+        //json="[{\"command\":\"start\",\"target\":\"geofencing\",\"options\":{\"locations\":[{\"lng\":\"-70.61193645000458\",\"radius\":true,\"expires\":\"-1\",\"type\":\"both\",\"address\":\"dd\",\"lat\":\"-33.42244239703736\",\"name\":\"1234\"}]}}]";
+  /*
+        if(sb.indexOf("alarm")>0) {
+            json = "[{\"command\":\"start\",\"target\":\"geofencing\",\"options\":{\"locations\":[{\"id\":\"123\",\"center\":\"-33.44225674,-70.65455675\",\"radius\":200,\"type\":\"in\",\"expires\":\"-1\"},{\"id\":\"2334\",\"center\":\"-33.42266626,-70.61151266\",\"radius\":200,\"type\":\"in\",\"expires\":\"-1\"}]}}]";
+        }
+
+      //  json="[{\"command\":\"start\",\"target\":\"geofencing\",\"options\":{\"locations\":[{\"id\":\"id1\",\"center\":\"-70.60713481,-33.42372147\",\"radius\":100,\"type\":\"in\",\"expires\":\"-1\"}]}}]";
+        if(sb.indexOf("alert")>0) {
+            json = "[ {\"command\":\"stop\", \"target\":\"geofencing\",\"options\": {\"locations\": [{\"id\":\"id2\"}]}}]";
+        }
+*/
 
 
         if ("[]".equals(json)) {

@@ -286,6 +286,7 @@ public class PreyRestHttpClient {
     }
 
     public PreyHttpResponse get(String url, Map<String, String> params, PreyConfig preyConfig, String user, String pass) throws IOException {
+        PreyLogger.i("ini get");
         HttpGet method = null;
         if (params != null) {
             method = new HttpGet(url + URLEncodedUtils.format(getHttpParamsFromMap(params), "UTF-8"));
@@ -294,11 +295,12 @@ public class PreyRestHttpClient {
         }
         method.setHeader("Accept", "*/*");
         method.addHeader("Authorization", "Basic " + getCredentials(user, pass));
-        //PreyLogger.d("Sending using 'GET' (Basic Authentication) - URI: " + method.getURI());
+        PreyLogger.d("Sending using 'GET' (Basic Authentication) - URI: " + method.getURI());
         HttpResponse httpResponse = httpclient.execute(method);
         PreyHttpResponse response = new PreyHttpResponse(httpResponse);
-        //PreyLogger.d("Response from server: " + response.toString());
+        PreyLogger.d("Response from server: " + response.toString());
         method.removeHeaders("Authorization");
+        PreyLogger.i("out get");
         return response;
     }
 

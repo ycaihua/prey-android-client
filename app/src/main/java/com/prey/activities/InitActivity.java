@@ -47,7 +47,7 @@ public class InitActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         this.setContentView(R.layout.init);
-        PreyLogger.i("onCreate of MenuActivity");
+        PreyLogger.d("onCreate of MenuActivity");
 
         Button buttonActivate = (Button) findViewById(R.id.buttonActivate);
         buttonActivate.setOnClickListener(new View.OnClickListener() {
