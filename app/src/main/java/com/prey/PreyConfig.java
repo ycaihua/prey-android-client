@@ -384,7 +384,7 @@ public class PreyConfig {
 
                     } catch (Exception e) {
                         error = true;
-
+                        PreyLogger.e("Error1 :" + e.getMessage(), e);
                     }
 
                     if (error) {
@@ -402,7 +402,7 @@ public class PreyConfig {
                                 PreyLogger.d("______________________");
                             }
                         } catch (Exception e) {
-                            PreyLogger.e("Error :" + e.getMessage(), e);
+                            PreyLogger.e("Error2 :" + e.getMessage(), e);
 
                         }
                     }

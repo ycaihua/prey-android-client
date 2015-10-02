@@ -141,7 +141,7 @@ public class LocationUtil {
                     } catch (InterruptedException e) {
                         throw new PreyException("Thread was intrrupted. Finishing Location NotifierAction", e);
                     }
-                    if (i > 2) {
+                    if (i > 3) {
                         return null;
                     }
                     i++;

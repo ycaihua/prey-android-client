@@ -10,7 +10,8 @@ import android.content.Context;
 import android.location.Location;
 
 import com.prey.PreyLogger;
-import com.prey.services.UtilityService;
+import com.prey.actions.geofence.GeofenceService;
+
 
 public class PreyGooglePlayServiceLocation {
 
@@ -21,7 +22,7 @@ public class PreyGooglePlayServiceLocation {
         PreyLogger.d("init");
 
 
-        UtilityService.requestLocation(ctx);
+        GeofenceService.requestLocation(ctx);
     }
 
     public Location getLastLocation(Context ctx) {
