@@ -95,7 +95,7 @@ public class GoogleGeofencingHelper   {
     }
 
 
-    public void startGeofences(final Context ctx, List<Geofence> geofences) {
+    public void startGeofences(final Context ctx, List<Geofence> geofences,GeofenceDataSource datasource) {
         GoogleApiClient mGoogleApiClient=null;
         try {
 
@@ -153,7 +153,7 @@ public class GoogleGeofencingHelper   {
 
     }
 
-    public void stopGeofences(final Context ctx, List<String> geofences) {
+    public void stopGeofences(final Context ctx, List<Geofence> geofences,GeofenceDataSource datasource) {
         GoogleApiClient mGoogleApiClient=null;
         try {
 
@@ -164,7 +164,7 @@ public class GoogleGeofencingHelper   {
             ArrayList<String> requestIds = new ArrayList<String>();
             for (int i = 0; geofences != null && i < geofences.size(); i++) {
 
-                requestIds.add( geofences.get(i));
+                requestIds.add( geofences.get(i).getId());
             }
 
             LocationServices.GeofencingApi.removeGeofences(
@@ -183,6 +183,37 @@ public class GoogleGeofencingHelper   {
         } finally {
             disconnectGoogleApiClient(mGoogleApiClient);
         }
+    }
+
+
+    public List<GeofenceStatus> compare(List<Geofence> geofences,GeofenceDataSource datasource){
+        List<GeofenceStatus> listStatus=new ArrayList<>();
+        List<Geofence> listAllBD=datasource.getAllGeofences();
+        for (int i = 0; listAllBD != null && i < listAllBD.size(); i++) {
+            boolean include=false;
+            for (int j = 0; geofences != null && j < geofences.size(); j++) {
+                if (listAllBD.get(i).getId().equals(geofences.get(j).getId())){
+                    include=true;
+                    break;
+                }
+            }
+            if(!include){
+                listStatus.add(new GeofenceStatus(GeofenceStatus.DELETE_ZONE,listAllBD.get(i)));
+            }
+        }
+
+        for (int i = 0; geofences != null && i < geofences.size(); i++) {
+            Geofence geofence=geofences.get(i);
+            Geofence geofenceBD=datasource.getGeofences(geofence.getId());
+            if (geofence.getId().equals(geofenceBD.getId())) {
+                if (!geofence.equals(geofenceBD)) {
+                    listStatus.add(new GeofenceStatus(GeofenceStatus.CREATE_OR_UPDATE_ZONE,geofence));
+                }else{
+                    //Nothing
+                }
+            }
+        }
+        return listStatus;
     }
 
 

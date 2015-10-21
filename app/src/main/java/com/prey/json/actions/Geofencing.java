@@ -9,51 +9,62 @@ package com.prey.json.actions;
 import android.content.Context;
 
 import com.prey.PreyLogger;
+import com.prey.actions.geofence.GeofecenceParse;
 import com.prey.actions.geofence.Geofence;
 import com.prey.actions.geofence.GeofenceDataSource;
+import com.prey.actions.geofence.GeofenceStatus;
 import com.prey.actions.geofence.GoogleGeofencingHelper;
 import com.prey.actions.observer.ActionResult;
 import com.prey.events.Event;
 import com.prey.events.manager.EventThread;
 import com.prey.json.UtilJson;
+import com.prey.net.PreyHttpResponse;
 import com.prey.net.PreyWebServices;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Geofencing  {
 
+
+
     public void start(Context ctx, List<ActionResult> list, JSONObject parameters) {
         GeofenceDataSource datasource=null;
         try {
+            PreyLogger.d("started Geofencing");
             datasource=new GeofenceDataSource(ctx);
             PreyWebServices.getInstance().sendNotifyActionResultPreyHttp(ctx, UtilJson.makeMapParam("start", "geofencing", "started"));
-            JSONArray locations = null;
-            locations = parameters.getJSONArray("locations");
-            datasource.open();
-            List<Geofence>lista=new ArrayList<Geofence>();
-            for (int i = 0; locations != null && i < locations.length(); i++) {
-                JSONObject location = (JSONObject) locations.get(i);
-                Geofence geofence=new Geofence();
-                geofence.setId(location.getString("id"));
-                geofence.setName(location.getString("id"));
-                geofence.setLatitude(Double.parseDouble(location.getString("lat")));
-                geofence.setLongitude(Double.parseDouble(location.getString("lng")));
-                geofence.setRadius(Float.parseFloat(location.getString("radius")));
-                geofence.setType(location.getString("type"));
-                geofence.setExpires(Integer.parseInt(location.getString("expires")));
-                if(geofence.getExpires()>0){
-                    geofence.setExpires(1000*100);
-                }
-                datasource.createGeofence(geofence);
-                lista.add(geofence);
-            }
+            List<Geofence> listGeo=GeofecenceParse.getJSONFromUrl(ctx);
+            PreyLogger.d("list Geo zone in size:"+(listGeo==null?0:listGeo.size()));
             GoogleGeofencingHelper helper=new GoogleGeofencingHelper(ctx);
-            helper.startGeofences(ctx,lista);
+            List<GeofenceStatus> listGeofenceStatus=helper.compare(listGeo,datasource);
+            PreyLogger.d("list Geo status size:"+(listGeofenceStatus==null?0:listGeofenceStatus.size()));
+
+            List<Geofence> listCreateUpdate=new ArrayList<Geofence>();
+            List<Geofence> listDelete=new ArrayList<Geofence>();
+
+            for (int i = 0; listGeofenceStatus != null && i < listGeofenceStatus.size(); i++) {
+                GeofenceStatus geofenceStatus = (GeofenceStatus) listGeofenceStatus.get(i);
+                switch (geofenceStatus.getStatus()){
+                    case GeofenceStatus.CREATE_OR_UPDATE_ZONE:
+                        listCreateUpdate.add(geofenceStatus.getGeofence());
+                        break;
+                    case GeofenceStatus.DELETE_ZONE:
+                        listDelete.add(geofenceStatus.getGeofence());
+                        break;
+                    default: break;
+                }
+            }
+            PreyLogger.d("list Geo create or update size:" + (listCreateUpdate==null?0:listCreateUpdate.size()));
+            helper.startGeofences(ctx, listCreateUpdate, datasource);
+            PreyLogger.d("list Geo delete size:" + (listDelete == null ? 0 : listDelete.size()));
+            helper.stopGeofences(ctx, listDelete, datasource);
             PreyWebServices.getInstance().sendNotifyActionResultPreyHttp(ctx, UtilJson.makeMapParam("start", "geofencing", "stopped"));
+            PreyLogger.d("stopped Geofencing");
         } catch (Exception e) {
             PreyWebServices.getInstance().sendNotifyActionResultPreyHttp(ctx, UtilJson.makeMapParam("start", "geofencing", "failed", e.getMessage()));
         } finally {
@@ -63,45 +74,10 @@ public class Geofencing  {
         }
     }
 
-
     public void stop(Context ctx, List<ActionResult> list, JSONObject parameters) {
-        GeofenceDataSource datasource=null;
-        try {
-            datasource=new GeofenceDataSource(ctx);
-            PreyWebServices.getInstance().sendNotifyActionResultPreyHttp(ctx, UtilJson.makeMapParam("stop", "geofencing", "started"));
-            ArrayList<String> requestIds = new ArrayList<String>();
-            JSONArray locations = null;
-            locations = parameters.getJSONArray("locations");
-            for (int i = 0; locations != null && i < locations.length(); i++) {
-                JSONObject location = (JSONObject) locations.get(i);
-                String id = location.getString("id");
-                requestIds.add(id);
-                datasource.deleteGeofence(id);
-            }
-            GoogleGeofencingHelper helper=new GoogleGeofencingHelper(ctx);
-            helper.stopGeofences(ctx,requestIds);
-            datasource.open();
-            for (int i = 0; requestIds != null && i < requestIds.size(); i++) {
-                String id = requestIds.get(i);
-                Event event = new Event();
-                event.setName("geofencing_stop");
-                JSONObject info = new JSONObject();
-                info.put("id", id);
-                PreyLogger.i("stop id:" + id);
-                event.setInfo(info.toString());
-                JSONObject jsonObjectStatus = new JSONObject();
-                new EventThread(ctx, event, jsonObjectStatus).start();
-            }
-            PreyWebServices.getInstance().sendNotifyActionResultPreyHttp(ctx, UtilJson.makeMapParam("stop", "geofencing", "stopped"));
-        } catch (Exception e) {
-            PreyWebServices.getInstance().sendNotifyActionResultPreyHttp(ctx, UtilJson.makeMapParam("stop", "geofencing", "failed", e.getMessage()));
-        } finally {
-
-            if(datasource!=null){
-                datasource.close();
-            }
-        }
+        start(ctx,list,parameters);
     }
+
 
     public static void run(Context ctx) {
         GeofenceDataSource datasource=null;
@@ -117,7 +93,7 @@ public class Geofencing  {
                 PreyLogger.i(geofence.toString());
             }
             GoogleGeofencingHelper helper=new GoogleGeofencingHelper(ctx);
-            helper.startGeofences(ctx, list);
+            helper.startGeofences(ctx, list,datasource);
         } catch (Exception e) {
             PreyWebServices.getInstance().sendNotifyActionResultPreyHttp(ctx, UtilJson.makeMapParam("start", "geofencing", "failed", e.getMessage()));
         } finally {

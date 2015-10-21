@@ -811,5 +811,21 @@ public class PreyWebServices {
         return queryString;
     }
 
+    public String geofencing(Context ctx) throws PreyException {
+        String url = getDeviceUrlApiv2(ctx).concat("/geofencing.json");
+        PreyLogger.d("url:"+url);
+        String sb=null;
+        PreyRestHttpClient preyRestHttpClient=PreyRestHttpClient.getInstance(ctx);
+        try{
+            sb=preyRestHttpClient.getStringUrl(url,PreyConfig.getPreyConfig(ctx));
+            if (sb!=null)
+                sb = sb.trim();
+        }catch(Exception e){
+            PreyLogger.e("Error, causa:" + e.getMessage(), e);
+            return null;
+        }
+        PreyLogger.i("cmd:" + sb);
+        return sb;
+    }
 }
 

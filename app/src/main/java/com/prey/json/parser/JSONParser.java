@@ -113,6 +113,10 @@ public class JSONParser {
 
         //	json = "[ {\"command\": \"start\",\"target\": \"detach\",\"options\": {}}]";
 
+       // json = "[ {\"command\": \"start\",\"target\": \"geofencing\",\"options\": {}}]";   // {"prey":[{"command":"start","target":"geofencing","options":{"id":2}}]}
+
+        // json = "[ {\"command\": \"stop\",\"target\": \"geofencing\",\"options\": {}}]";   // {"prey":[{"command":"start","target":"geofencing","options":{"id":2}}]}
+
 
         if ("[]".equals(json)) {
             return null;

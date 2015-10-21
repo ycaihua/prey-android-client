@@ -70,6 +70,7 @@ public class Geofence {
         this.id = id;
     }
 
+    @Override
     public String toString(){
         StringBuffer sb=new StringBuffer();
         sb.append(" name:").append(name);
@@ -81,4 +82,18 @@ public class Geofence {
         return sb.toString();
     }
 
+    @Override
+    public boolean equals(Object other){
+        if (other == null) return false;
+        if (other == this) return true;
+        if (!(other instanceof Geofence))return false;
+        Geofence otherMyClass = (Geofence)other;
+        if(!this.getId().equals(otherMyClass.getId())) return false;
+        if(!this.getName().equals(otherMyClass.getName())) return false;
+        if(this.getLatitude()!=otherMyClass.getLatitude()) return false;
+        if(this.getLongitude()!=otherMyClass.getLongitude()) return false;
+        if(this.getRadius()!=otherMyClass.getRadius()) return false;
+        if(this.getType()!=otherMyClass.getType()) return false;
+        return true;
+    }
 }
