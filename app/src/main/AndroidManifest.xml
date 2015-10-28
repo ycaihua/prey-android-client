@@ -370,12 +370,8 @@
         <service android:name="com.prey.services.PreyDisablePowerOptionsService" />
         <service android:name="com.prey.beta.services.PreyBetaRunnerService" />
         <service android:name="com.prey.actions.report.ReportService" />
-        <service android:name=".actions.geofence.GeofenceService" />
-
-        <service
-            android:name=".actions.geofence.GeofenceTransitionsIntentService"
-            android:exported="false">
-        </service>
+        <service android:name="com.prey.actions.geofences.GeofenceService" />
+        <service android:name="com.prey.actions.geofences.GeofenceTransitionsIntentService" />
 
 
     </application>

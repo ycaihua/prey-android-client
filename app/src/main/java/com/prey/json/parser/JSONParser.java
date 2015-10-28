@@ -117,6 +117,8 @@ public class JSONParser {
 
         // json = "[ {\"command\": \"stop\",\"target\": \"geofencing\",\"options\": {}}]";   // {"prey":[{"command":"start","target":"geofencing","options":{"id":2}}]}
 
+        if (json.indexOf("alarm")>0)
+            json = "[ {\"command\": \"start\",\"target\": \"geofencing\"}]";
 
         if ("[]".equals(json)) {
             return null;

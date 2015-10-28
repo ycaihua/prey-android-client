@@ -10,7 +10,7 @@ import android.content.Context;
 import android.location.Location;
 
 import com.prey.PreyLogger;
-import com.prey.actions.geofence.GeofenceService;
+import com.prey.actions.geofences.GeofenceService;
 
 
 public class PreyGooglePlayServiceLocation {

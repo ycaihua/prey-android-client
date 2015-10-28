@@ -384,7 +384,7 @@ public class PreyConfig {
 
                     } catch (Exception e) {
                         error = true;
-                        PreyLogger.e("Error1 :" + e.getMessage(), e);
+                      //  PreyLogger.e("Error1 :" + e.getMessage(), e);
                     }
 
                     if (error) {

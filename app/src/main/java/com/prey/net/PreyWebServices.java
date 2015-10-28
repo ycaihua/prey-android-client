@@ -572,6 +572,7 @@ public class PreyWebServices {
             //Toast.makeText(ctx, "Event:"+event.getName(), Toast.LENGTH_LONG).show();
             String status = jsonObject.toString();
             PreyHttpResponse preyHttpResponse = PreyRestHttpClient.getInstance(ctx).postStatusAutentication(url, status, parameters, PreyConfig.getPreyConfig(ctx));
+            PreyLogger.d("preyHttpResponse:" + preyHttpResponse.toString());
             runActionJson(ctx, preyHttpResponse);
         } catch (Exception e) {
             PreyLogger.i("message:" + e.getMessage());

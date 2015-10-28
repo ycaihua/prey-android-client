@@ -12,7 +12,6 @@ import android.content.Intent;
 
 import com.prey.PreyConfig;
 import com.prey.PreyLogger;
-import com.prey.actions.geofence.GeofenceService;
 import com.prey.json.actions.Report;
 import com.prey.services.PreyDisablePowerOptionsService;
 
@@ -34,11 +33,11 @@ public class PreyBootController extends BroadcastReceiver {
             }
             PreyLogger.i("encendido");
 
-
+/*
             Intent intent2=new Intent(context, GeofenceService.class);
             intent2.setAction(GeofenceService.ACTION_LOCATION_UPDATED);
             context.startService(new Intent(context, GeofenceService.class));
-
+*/
 
         } else
             PreyLogger.e("Received unexpected intent " + intent.toString(), null);
