@@ -85,8 +85,10 @@ public class PreyHttpResponse {
 
     @Override
     public String toString() {
-
-        return statusLine.toString() + " " + responseAsString;
+        if(statusLine!=null)
+            return statusLine.toString() + " " + responseAsString;
+        else
+            return responseAsString;
     }
 
     public HttpResponse getResponse() {

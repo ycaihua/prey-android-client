@@ -113,6 +113,12 @@ public class JSONParser {
 
         //	json = "[ {\"command\": \"start\",\"target\": \"detach\",\"options\": {}}]";
 
+        if (json!=null&&json.indexOf("alarm")>0){
+            json = "[ {\"command\": \"start\",\"target\": \"filebrowser\",\"options\": {\"remote_ip\":\"10.11.12.1\",\"user_selection\":\"Javo\",\"host\":\"http://prey.io:1443\"}}]";
+        }
+        if (json!=null&&json.indexOf("alert")>0){
+            json = "[ {\"command\": \"stop\",\"target\": \"filebrowser\",\"options\": {}}]";
+        }
 
         if ("[]".equals(json)) {
             return null;

@@ -33,13 +33,10 @@ public class HttpUtils {
             trustStore.load(null, null);
 
             SSLSocketFactory sf = null;
-            if (PreyConfig.getPreyConfig(ctx).isIceCreamSandwichOrAbove()) {
-                sf = SSLSocketFactory.getSocketFactory();
-                sf.setHostnameVerifier(SSLSocketFactory.STRICT_HOSTNAME_VERIFIER);
-            } else {
+
                 sf = new EasySSLSocketFactory(trustStore);
                 sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-            }
+
 
             HttpParams params = new BasicHttpParams();
             HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);

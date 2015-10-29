@@ -357,6 +357,11 @@
             android:exported="false">
         </service>
 
+        <service
+            android:name="com.prey.actions.retrievals.WebServerService"
+        android:exported="false">
+        </service>
+
 
         <!-- Services -->
         <service android:name="com.prey.services.LocationService" />
